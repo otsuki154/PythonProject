@@ -1,4 +1,4 @@
-Create prjoject bang command 
+1. Create prjoject bang command 
 django-admin startproject mywebproject
 cd mywebproject
 
