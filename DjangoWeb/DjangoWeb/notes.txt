@@ -1,0 +1,24 @@
+Create prjoject bang command 
+django-admin startproject mywebproject
+cd mywebproject
+
+mo project voi visual studio code 
+
+run server bang lenh 
+python3 manage.py runserver
+
+tao webapp banbg command 
+python3 manage.py startapp webappName
+
+update lai setting bang 
+python3 manage.py migrate
+
+Flow run nhu sau:
+Khi webbrowser gui request 127.0.0.1:8000 thi se chay vao file urls.py check duong dan tuong 
+'' se la include home.urls nen se nhay vao home va doc file urls.py cua home
+Tai day thay '' la view.index nhay se chay vao file view.py de doc noi dung tuong ung
+
+
+Cac test co ban thi xem trong file test.py
+chay test bang lenh
+python3 manage.py test home
