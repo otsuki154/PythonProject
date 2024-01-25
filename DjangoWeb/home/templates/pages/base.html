@@ -4,27 +4,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Default Title{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-    <header>
-      <h1>{% block header %}Default Header{% endblock %}</h1>
-    </header>
-
-    {% comment %}
-    <nav>
-      <ul>
-        {% for item in navigation_items %}
-        <li><a href="{{ item.url }}">{{ item.label }}</a></li>
-        {% endfor %}
-      </ul>
-    </nav>
-    {% endcomment %}
-
-    <main>{% block content %}{% endblock %}</main>
-
-    <footer>
-      <p>&copy; 2024 My Website</p>
-    </footer>
+    Noi dung {% block content %} {% endblock %}
   </body>
 </html>

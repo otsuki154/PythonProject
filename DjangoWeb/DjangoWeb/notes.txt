@@ -9,6 +9,8 @@ python3 manage.py runserver
 
 tao webapp banbg command 
 python3 manage.py startapp webappName
+sau khi tao web app thi nho dang ky vao INSTALLED_APPS trong settings.py
+neu khong dang ky framework se khong nhin thay duoc các file html trong folder templates
 
 update lai setting bang 
 python3 manage.py migrate
