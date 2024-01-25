@@ -1,0 +1,2 @@
+Create DB tên tuỳ ý trên Postgres
+Chạy script bằng Query Tool trên pgAdmin
