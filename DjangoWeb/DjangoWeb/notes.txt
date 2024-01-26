@@ -24,3 +24,7 @@ Tai day thay '' la view.index nhay se chay vao file view.py de doc noi dung tuon
 Cac test co ban thi xem trong file test.py
 chay test bang lenh
 python3 manage.py test home
+
+
+**********************************
+Truy cap database bang psql 
