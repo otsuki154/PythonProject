@@ -45,6 +45,9 @@ python3 manage.py test home
 
 
 ---------------------------
+*Add search field
+https://adiramadhan17.medium.com/django-admin-add-search-field-4067b31a26dc
+
 *Upload unique filename of image
 https://stackoverflow.com/questions/2673647/enforce-unique-upload-file-names-using-django
 
