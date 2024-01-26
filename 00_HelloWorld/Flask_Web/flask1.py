@@ -14,4 +14,4 @@ def contact():
     return "<p style='color:violet'> This is Contact page</p>"
 
 if __name__ == "__main__":
-    app.run(host='127.0.0.1', port='5001')
+    app.run(host='127.0.0.1', port='5001') #co the set ip va port tuong ung
