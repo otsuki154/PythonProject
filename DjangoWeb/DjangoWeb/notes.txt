@@ -27,4 +27,10 @@ python3 manage.py test home
 
 
 **********************************
-Truy cap database bang psql 
+ Git command
+ git pull https://github.com/otsuki154/PythonProject.git master
+ git status 
+ git add .
+ git commit -m ""
+ git push origin master
+
