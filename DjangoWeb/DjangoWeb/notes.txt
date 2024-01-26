@@ -34,3 +34,19 @@ python3 manage.py test home
  git commit -m ""
  git push origin master
 
+
+
+ 
+ python3 manage.py migrate
+ python3 manage.py makemigrations home
+ python3 manage.py runserver
+
+
+
+
+---------------------------
+*Upload unique filename of image
+https://stackoverflow.com/questions/2673647/enforce-unique-upload-file-names-using-django
+
+*Udate image and delete old image
+https://stackoverflow.com/questions/2878490/how-to-delete-old-image-when-update-imagefield
