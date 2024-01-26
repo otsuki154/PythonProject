@@ -2,7 +2,7 @@ from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/dvdrental'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5433/dvdrental'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -15,7 +15,7 @@ class Cat(db.Model):
     def __init__(self,name, age):
         self.name = name
         self.age = age
-# Chú ý: Bạn không cần gọi db.create_all() ở đây
+
 
 @app.route("/")
 def index():
