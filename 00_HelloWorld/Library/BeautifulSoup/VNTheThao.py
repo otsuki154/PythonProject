@@ -14,8 +14,8 @@ def addTextWithFont(text, name, size, rgb_values):
 
 
 # URL của trang web
-# url = "https://vnexpress.net/the-thao"
-url = "https://vnexpress.net/khoa-hoc"
+url = "https://vnexpress.net/the-thao"
+#url = "https://vnexpress.net/khoa-hoc"
 
 # Gửi yêu cầu GET đến trang web và lấy nội dung HTML
 response = requests.get(url)
@@ -31,7 +31,7 @@ articles = soup.select("p.description a")
 doc = Document()
 addTextWithFont("Top 10 Bài Báo Khoa Học Mới Nhất", 'Courier New', 20, [0, 128, 128])
 
-for index, article in enumerate(articles[:10], 1):
+for article in articles:
     if 'title' in article.attrs:
         #lấy nội dung title
         title = article['title']
