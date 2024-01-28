@@ -8,7 +8,7 @@ def refreshInputData(i):
     print('Refreshing data...')
     X = []
     Y = []
-    grapData = open("../FileSamples/dynamic.txt","r").read()
+    grapData = open("../../FileSamples/dynamic.txt", "r").read()
     datas = grapData.split('\n')
 
     for data in datas:

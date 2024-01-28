@@ -14,10 +14,10 @@ receiver_email = "nvthanh15490@gmail.com"
 message = MIMEMultipart()
 message["From"] = sender_email
 message["To"] = receiver_email
-message["Subject"] = "Subject of the email"
+message["Subject"] = "Xin chào Thạnh! Tôi đến từ Python"
 
 # Nội dung email
-body = "This is the body of the email."
+body = "Đây là mail được gửi để test gửi mail từ thư viện smtplib trong python"
 message.attach(MIMEText(body, "plain"))
 
 # Kết nối đến máy chủ SMTP của Gmail (sử dụng cổng 587)
