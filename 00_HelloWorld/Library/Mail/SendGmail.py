@@ -28,7 +28,7 @@ message["Subject"] = "【" + formatted_time + "】【Haru Aki】Cập nhật bá
 
 # Nội dung email
 # URL của trang web
-url = "https://vnexpress.net/"
+url = "https://vnexpress.net/the-thao"
 
 # Gửi yêu cầu GET đến trang web và lấy nội dung HTML
 response = requests.get(url)
@@ -36,6 +36,9 @@ html_content = response.text
 
 # Sử dụng BeautifulSoup để phân tích HTML
 soup = BeautifulSoup(html_content, "html.parser")
+# Bỏ nội dung trong thẻ span có class location-stamp
+for span_tag in soup.find_all("span", class_="location-stamp"):
+    span_tag.decompose()
 
 # Lấy danh sách các bài báo
 articles = soup.select("p.description a")
