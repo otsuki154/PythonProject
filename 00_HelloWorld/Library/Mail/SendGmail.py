@@ -9,13 +9,18 @@ from email.mime.multipart import MIMEMultipart
 sender_email = "huythanhapp@gmail.com"
 sender_password = "twib waak utap yadr"  # tạo pass trong security> 2-step varification > app
 
-# Người nhận email
-receiver_emails = ["nvthanh15490@gmail.com","nvthanh15590@gmail.com","huythanhapp@gmail.com"]
+# Đọc nội dung từ file maillist.txt để lấy receiver_emails
+with open("receiver_emails.txt", "r") as file:
+    mailAcc= file.readlines()
+
+# Loại bỏ ký tự xuống dòng từ mỗi dòng và tạo danh sách email
+receiver_emails = [email.strip() for email in mailAcc]
 
 # Tạo đối tượng MIMEMultipart
 message = MIMEMultipart()
 message["From"] = sender_email
-message["To"] = ", ".join(receiver_emails)  # Chuyển danh sách email thành một chuỗi ngăn cách bởi dấu phẩy
+#message["To"] = ", ".join(receiver_emails)  # Chuyển danh sách email thành một chuỗi ngăn cách bởi dấu phẩy
+message["Bcc"] = ", ".join(receiver_emails)  # Thêm địa chỉ email vào Bcc field
 
 # Định dạng thời gian theo yêu cầu
 formatted_time = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
@@ -53,7 +58,7 @@ for article in articles:
 
     # Sử dụng MIMEText để tạo phần nội dung của email
     part = MIMEText(f"<a style='font-size:20px;font-weight:bold;color:rgb(238, 3, 173)' href='{link}'>{title}</a>"
-                    f"<p style='font-size:18px; font-style:italic'>{content}</p>", "html")
+                    f"<p style='font-size:18px; font-style:italic;font-family:Courier New'>{content}</p>", "html")
 
     # Thêm phần nội dung vào đối tượng MIMEMultipart
     message.attach(part)
