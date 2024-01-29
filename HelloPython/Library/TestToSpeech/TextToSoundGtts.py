@@ -64,4 +64,4 @@ speed_factor = 1.5
 # Sử dụng lệnh afplay để phát nhạc với tốc độ tùy chỉnh
 os.system(f"afplay -q 1 -r {speed_factor} {file_path}")
 
-print("Đã tạo và phát file âm thanh 'output_Gtts.mp3'")
+print("Đã tạo và phát file âm thanh '"+ file_path +"'")
