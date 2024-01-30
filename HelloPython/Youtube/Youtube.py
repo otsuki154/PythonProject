@@ -9,7 +9,7 @@ from oauth2client.tools import run_flow
 from oauth2client.file import Storage
 
 # File JSON chứa thông tin xác thực của ứng dụng (tạo từ Google Cloud Console)
-CLIENT_SECRETS_FILE = 'client_secret_228180543332-ok2qj2apb46aei3tiuras0j5jv7odpoe.apps.googleusercontent.com.json'
+CLIENT_SECRETS_FILE = 'odpoe.apps.googleusercontent.com.json'
 
 # Tên của ứng dụng
 APPLICATION_NAME = 'My YouTube Uploader'
