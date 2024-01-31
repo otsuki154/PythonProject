@@ -36,7 +36,7 @@ img_2g = create_wifi_qrcode(wifi_2g_ssid, wifi_2g_password)
 img_5g = create_wifi_qrcode(wifi_5g_ssid, wifi_5g_password)
 
 # Kích thước của mỗi QR code
-width, height = img_2g.size
+width, height = img_5g.size
 
 # Tạo hình ảnh lớn để chứa cả hai QR code
 img_combined = Image.new("RGB", (width * 2, height), "white")

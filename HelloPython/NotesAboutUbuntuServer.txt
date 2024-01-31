@@ -1,0 +1,33 @@
+Tắt monitor
+sudo vbetool dpms off
+Mở monitor
+sudo sh -c 'vbetool dpms off; read ans; vbetool dpms on'
+nhấn phím bất kỳ
+
+Set user vào group sudo
+sudo usermod -aG sudo thanh
+
+restart service
+sudo systemctl restart webmin.service
+
+webmin:
+user:thanh
+pass:thanh
+
+portainer
+user:admin,thanh
+pass:154thienduong
+
+guacemole
+user:thanh
+pass:thanh
+
+wordpress:
+user:thanh,nguyen
+pass:154thienduong
+
+
+Cài đặt cloudflare trên docker
+bổ sung thêm thông số -d --restart always sau docker run để chạy dưới dạng nền và luôn tự khởi động lại nếu máy chủ bị cúp điện và mở lại.
+sudo docker run -d --restart always cloudflare/cloudflared:latest tunnel --no-autoupdate run --token eyJhIjoiNTY0OThkNDRhZmVjYTBiNzZjNDYwZWIyNmY1ZmE4NjYiLCJ0IjoiYjRlZGI4NGQtOTE2NS00ZDFmLWI5NTYtYTg4NDkwMzllMWYxIiwicyI6IlpXWTBOVEpqWXpBdFpUY3haQzAwTkRkakxUaG1NREF0TURZd01qTmpNak00TW1JMSJ9
+
