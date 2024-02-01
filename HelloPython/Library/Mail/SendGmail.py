@@ -47,7 +47,7 @@ for span_tag in soup.find_all("span", class_="location-stamp"):
 # Lấy danh sách các bài báo
 articles = soup.select("p.description a")
 
-bodytext = "Những bài báo mới nhất trên VnExpress do はる và あき cập nhật\n\n\n\n"
+bodytext = "Những bài báo mới nhất trên VnExpress do 春秋 cập nhật\n\n\n\n"
 # Sử dụng MIMEText để tạo phần nội dung của email
 part = MIMEText(f"<p style='font-size:30px; font-weight:bold'>{bodytext}</p>", "html")
 
