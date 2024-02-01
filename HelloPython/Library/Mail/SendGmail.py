@@ -1,5 +1,6 @@
 import smtplib
 import requests
+import os
 from bs4 import BeautifulSoup
 from datetime import datetime
 from email.mime.text import MIMEText
@@ -10,7 +11,10 @@ sender_email = "huythanhapp@gmail.com"
 sender_password = "twib waak utap yadr"  # tạo pass trong security> 2-step varification > app
 
 # Đọc nội dung từ file maillist.txt để lấy receiver_emails
-with open("receiver_emails.txt", "r") as file:
+script_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(script_dir, 'receiver_emails.txt')
+
+with open(file_path, "r") as file:
     mailAcc= file.readlines()
 
 # Loại bỏ ký tự xuống dòng từ mỗi dòng và tạo danh sách email
