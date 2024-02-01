@@ -30,6 +30,9 @@ cosmos
 user:thanh
 pass:@154Thienduong
 
+code-server
+pass:@154thienduong
+
 31B6-47FB
 
 Chạy code python
