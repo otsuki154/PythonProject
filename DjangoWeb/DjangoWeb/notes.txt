@@ -53,3 +53,36 @@ https://stackoverflow.com/questions/2673647/enforce-unique-upload-file-names-usi
 
 *Udate image and delete old image
 https://stackoverflow.com/questions/2878490/how-to-delete-old-image-when-update-imagefield
+
+
+
+ ----------------------------
+ Deploy lên server ubuntu
+ 1. Install postgresql
+    đặt lại mật khẩu cho user postgres là postgres
+    create database djangodb owner postgres;
+2. sudo apt install python3 python3-venv (nếu đã installed thì không cần)
+3. cd đến folder dự án và tạo và kích hoạt môi trường ảo
+    cd /code-server/config/PythonProject/DjangoWeb
+    python3 -m venv venv
+    source venv/bin/activate
+4. Tạo file requirements.txt có nội dung(chưa các thư viện cần cài đặt để chạy được dự án)
+    Django==3.2.12
+    gunicorn==20.1.0
+    psycopg2-binary==2.9.1
+    django-tinymce
+    django_cleanup
+    Pillow
+
+    cài thư viện với lệnh
+    pip install -r requirements.txt
+5. Collect Static Files
+If your project serves static files using Django, collect them using the following command
+    python manage.py collectstatic
+6. Migrate Database
+Apply initial database migrations
+    python manage.py migrate
+7. Start your Django development server to test your application
+    python manage.py runserver 192.168.0.228:8585 
+    Nếu bị lỗi thì thêm allow host và setting.py
+    ALLOWED_HOSTS = ['192.168.0.228', 'yourdomain.com']
