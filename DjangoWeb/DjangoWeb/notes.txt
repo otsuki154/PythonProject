@@ -82,7 +82,7 @@ If your project serves static files using Django, collect them using the followi
 6. Migrate Database
 Apply initial database migrations
     python manage.py migrate
-7. Start your Django development server to test your application
+7. Start your Django development server to test your application(hãy đảm bảo môi trường ảo đã được kích hoạt)
     python manage.py runserver 192.168.0.228:8585 
     Nếu bị lỗi thì thêm allow host và setting.py
     ALLOWED_HOSTS = ['192.168.0.228', 'yourdomain.com']
