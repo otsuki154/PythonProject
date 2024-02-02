@@ -1,29 +1,29 @@
-1. Create prjoject bang command 
+1. Create prjoject bằng command 
 django-admin startproject mywebproject
 cd mywebproject
 
-mo project voi visual studio code 
+mở project với visual studio code 
 
-run server bang lenh 
+run server bằng lệnh
 python3 manage.py runserver
 
-tao webapp banbg command 
+ tạo webapp bằng lệnh
 python3 manage.py startapp webappName
 sau khi tao web app thi nho dang ky vao INSTALLED_APPS trong settings.py
 neu khong dang ky framework se khong nhin thay duoc các file html trong folder templates
 
-update lai setting bang 
+update lại setting bằng lệnh bên dưới, lệnh này cũng dùng khi muốn tạo mới một module và tạo table tương ứng
 python3 manage.py migrate
 
-Flow run nhu sau:
+Flow chạy như sau:
 Khi webbrowser gui request 127.0.0.1:8000 thi se chay vao file urls.py check duong dan tuong 
 '' se la include home.urls nen se nhay vao home va doc file urls.py cua home
 Tai day thay '' la view.index nhay se chay vao file view.py de doc noi dung tuong ung
 
 
-Cac test co ban thi xem trong file test.py
-chay test bang lenh
-python3 manage.py test home
+ Các test cơ bản thì xem trong file test.py
+ Chạy test bằng lệnh
+python3 manage.py test webappName
 
 
 **********************************
@@ -33,7 +33,8 @@ python3 manage.py test home
  git add .
  git commit -m ""
  git push origin master
-
+psssword khi push trên Ubuntu server
+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
 
 
  
