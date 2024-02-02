@@ -33,7 +33,7 @@ python3 manage.py test webappName
  git add .
  git commit -m ""
  git push origin master
-psssword khi push trên Ubuntu server
+psssword khi push trên Ubuntu server(nếu không được thì lên github gen lại key)
 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
 
 
