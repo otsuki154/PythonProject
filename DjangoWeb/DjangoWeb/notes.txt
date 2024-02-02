@@ -57,7 +57,7 @@ https://stackoverflow.com/questions/2878490/how-to-delete-old-image-when-update-
 
 
  ----------------------------
- Deploy lên server ubuntu
+ Deploy lên server ubuntu(Tham khảo tại: https://dev.to/tkirwa/deploying-django-project-on-an-ubuntu-server-32jb)
  1. Install postgresql
     đặt lại mật khẩu cho user postgres là postgres
     create database djangodb owner postgres;
