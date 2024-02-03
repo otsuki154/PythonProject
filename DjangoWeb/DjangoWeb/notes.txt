@@ -64,7 +64,7 @@ https://stackoverflow.com/questions/2878490/how-to-delete-old-image-when-update-
     create database djangodb owner postgres;
 2. sudo apt install python3 python3-venv (nếu đã installed thì không cần)
 3. cd đến folder dự án và tạo và kích hoạt môi trường ảo
-    cd /code-server/config/PythonProject/DjangoWeb
+    cd code-server/config/PythonProject/DjangoWeb
     python3 -m venv venv
     source venv/bin/activate
 4. Tạo file requirements.txt có nội dung(chưa các thư viện cần cài đặt để chạy được dự án)

@@ -84,18 +84,7 @@ WSGI_APPLICATION = 'DjangoWeb.wsgi.application'
 #     }
 # }
 
-# #local
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'djangodb',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',
-#         'PORT': '5433',
-#     }
-# }
-#ubuntu Server
+#Postgres
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -103,7 +92,8 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
-        'PORT': '5432',
+        # 'PORT': '5432', #ubuntu Server
+        'PORT': '5433', # #local
     }
 }
 
