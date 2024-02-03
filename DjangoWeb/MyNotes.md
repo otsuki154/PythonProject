@@ -203,7 +203,45 @@ active phía client: 10 người dùng => gửi yêu cầu => html, css, js => a
 - Chạy và tìm các file static: cd django => python manage.py collectstatic
 - Cấu hình lại static folder
 - Nhớ reload lại app mỗi khi thay đổi bất cứ thứ gì
+# Deloy Project: Đẩy website Django lên server Ubuntu
+- Tham khảo tại: https://dev.to/tkirwa/deploying-django-project-on-an-ubuntu-server-32jb
+1. Install postgresql
+   - đặt lại mật khẩu cho user postgres là postgres
+     > create database djangodb owner postgres;
+2. Cài đặt python và môi trường ảo (nếu đã installed thì không cần)
+   > sudo apt install python3 python3-venv 
+3. Di chuyển đến folder dự án và tạo và kích hoạt môi trường ảo  
+   cd code-server/config/PythonProject/DjangoWeb  
+   python3 -m venv venv  
+   source venv/bin/activate  
+4. Tạo file requirements.txt có nội dung(chưa các thư viện cần cài đặt để chạy được dự án)  
+   Django  
+   gunicorn  
+   psycopg2-binary  
+   django-tinymce  
+   django_cleanup  
+   Pillow  
 
+   - cài thư viện với lệnh
+      pip install -r requirements.txt
+5. Collect Static Files
+If your project serves static files using Django, collect them using the following command
+    python manage.py collectstatic
+6. Migrate Database
+- Apply initial database migrations
+    python manage.py migrate
+7. Start your Django development server to test your application(hãy đảm bảo môi trường ảo đã được kích hoạt)  
+    python manage.py runserver 192.168.0.228:8585 
+- Nếu bị lỗi thì thêm allow host và setting.py  
+   ALLOWED_HOSTS = ['192.168.0.228', 'yourdomain.com']
+8. Git command  
+ git pull https://github.com/otsuki154/PythonProject.git master  
+ git status   
+ git add .  
+ git commit -m ""  
+ git push origin master 
+- Password khi push trên Ubuntu server(nếu không được thì lên github gen lại key)  
+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
 # Các câu lệnh thường dùng
 - python3 manage.py runserver
 - python3 manage.py makemigrations home
