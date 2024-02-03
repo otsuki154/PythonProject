@@ -14,9 +14,9 @@ class CatagoryAdmin(admin.ModelAdmin):
         css = ADMIN_SRC_CSS
 
 class ArticalAdmin(admin.ModelAdmin):
-    list_display = ('name','status','ordering')
+    list_display = ('name','catagory','status','ordering','special')
     prepopulated_fields = {'slug':('name',)}
-    list_filter = ['status','special'] # tao chuc nang fillter
+    list_filter = ['catagory','status','special'] # tao chuc nang fillter
     search_fields = ['name'] # tao chuc nang search
     class Media:
         js = ADMIN_SRC_JS
