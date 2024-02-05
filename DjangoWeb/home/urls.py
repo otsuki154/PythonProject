@@ -9,8 +9,10 @@ urlpatterns = [
     path('', views.index, name = "index"),
     path('category/<slug:catagory_slug>', views.category, name = "catagory"),
     path('artical/<slug:artical_slug>', views.artical, name = "artical"),
-    path('feed/', views.feed, name = "feed"),
+    path('feed/<slug:feed_slug>', views.feed, name = "feed"),
     path('search/', views.search, name = "search"),
+    path('contact/', views.contact, name = "contact"),
+    path('about/', views.about, name = "about"),
 
 
     path('tinymce/', include('tinymce.urls')),

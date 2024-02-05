@@ -4,3 +4,5 @@ psycopg2-binary==2.9.1
 django-tinymce
 django_cleanup
 Pillow
+feedparser
+BeautifulSoup

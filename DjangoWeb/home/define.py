@@ -1,10 +1,14 @@
 APP_VALUE_LAYOUT_DEFINE = "list"
 APP_VALUE_STATUS_DEFINE = "draft"
-APP_VALUE_ARTICAL_NUM_IN_PAGE_DEFINE = 2
+APP_VALUE_STATUS_ACTIVE_DEFINE = "published"
+APP_VALUE_ARTICAL_NUM_IN_PAGE_DEFINE = 10
+APP_VALUE_ARTICAL_NUM_IN_SEARCH_PAGE_DEFINE = 10
 APP_VALUE_ARTICAL_RELATED_MAX_DEFINE = 6
+APP_VALUE_DÈAULT_IMG_DEFINE = '/media/home/images/feed/tintuc.png'
 TABLE_CATEGORY_SHOW = "Category"
 TABLE_ARTICAL_SHOW = "Articals"
 TABLE_FEED_SHOW = "Feeds"
+TABLE_PATH_FILE = "pages/"
 
 
 ADMIN_SRC_JS = ('my_admin/js/slugify.min.js','my_admin/js/jquery-3.6.0.min.js','my_admin/js/general.js') #tao auto slug bang tieng Viet
