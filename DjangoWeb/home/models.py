@@ -23,6 +23,9 @@ class Catagory(models.Model):
     def __str__(self) -> str:
         return self.name
     
+    def get_absolute_url(self):
+        return reverse("catagory", kwargs={"catagory_slug": self.slug})
+    
 class Artical(models.Model):
 
     name = models.CharField(unique=True, max_length=100)
@@ -58,3 +61,6 @@ class Feed(models.Model):
 
     def __str__(self) -> str:
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse("feed", kwargs={"feed_slug": self.slug})

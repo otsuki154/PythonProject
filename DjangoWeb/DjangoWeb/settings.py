@@ -66,6 +66,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'home.my_context.items_catagory_sidebar_menu', # lấy context được lấy ở my_context
+                'home.my_context.items_feed_sidebar_menu', # lấy context được lấy ở my_context
+                'home.my_context.items_feed_sidebar_recent', # lấy context được lấy ở my_context
+                'home.my_context.items_feed_sidebar_random', # lấy context được lấy ở my_context
+                'home.my_context.items_feed_sidebar_trending', # lấy context được lấy ở my_context
             ],
         },
     },

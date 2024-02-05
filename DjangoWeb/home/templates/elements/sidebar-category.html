@@ -2,24 +2,13 @@
 <aside class="single_sidebar_widget post_category_widget">
     <h4 class="widget_title">Danh Mục</h4>
     <ul class="list cat-list">
-
-        <li>
-            <a href="/kinh-doanh.html" class="d-flex">
-                <p>Kinh Doanh (11)</p>
-            </a>
-        </li>
-
-        <li>
-            <a href="/khoa-hoc.html" class="d-flex">
-                <p>Khoa Học (12)</p>
-            </a>
-        </li>
-
-        <li>
-            <a href="/the-thao.html" class="d-flex">
-                <p class="text-primary">Thể Thao (11)</p>
-            </a>
-        </li>
-
+        {% for item in items_catagory_sidebar_menu %}
+            <li>
+                <a href="{{ item.get_absolute_url }}" class="d-flex">
+                    <p {% if item_catagory.name == item.name %} class="text-primary" {% endif %}>{{ item.name }}({{item.num_artical}})</p>
+                </a>
+            </li>
+        {% endfor %}
+       
     </ul>
 </aside>

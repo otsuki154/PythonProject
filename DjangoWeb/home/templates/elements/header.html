@@ -9,13 +9,12 @@
                         <div class="header-info-left">
                             <ul>
                                 <li class="title"><span class="flaticon-energy"></span> Tin nóng nhất</li>
-                                <li><a href="/gia-nha-o-cac-nuoc-giau-dang-ra-sao-a8.html">Người đàn ông tìm
-                                        thấy cục đá chứa 2,6 kg vàng</a></li>
+                                <li><a href="{{items_feed_sidebar_trending.0.get_absolute_url}}">{{items_feed_sidebar_trending.0.name}}</a></li>
                             </ul>
                         </div>
                         <div class="header-info-right">
                             <ul class="header-date">
-                                <li><span class="flaticon-calendar"></span> +84 383 308 983</li>
+                                <li><span class="flaticon-calendar"></span> +81 070 4386 2643</li>
                             </ul>
                         </div>
                     </div>
@@ -35,31 +34,26 @@
                             <nav>
                                 <ul id="navigation">
                                     <li><a href="/">Trang Chủ</a></li>
-                                    <li><a href="/about.html">Giới Thiệu</a></li>
-                                    <li><a href="/contact.html">Liên Hệ</a></li>
+                                    
                                     <li><a href="#">Danh Mục</a>
                                         <ul class="submenu">
-
-                                            <li><a href="/kinh-doanh.html">Kinh Doanh</a></li>
-
-                                            <li><a href="/khoa-hoc.html">Khoa Học</a></li>
-
-                                            <li><a class="text-primary" href="/the-thao.html">Thể Thao</a></li>
+                                            {% for item in items_catagory_sidebar_menu %}
+                                                <li><a {% if item_catagory.name == item.name %} class="text-primary" {% endif %} href="{{ item.get_absolute_url }}">{{item.name}}</a></li>
+                                            {% endfor %}
 
                                         </ul>
                                     </li>
                                     <li><a href="#">Tin Tổng Hợp</a>
                                         <ul class="submenu">
-
-                                            <li><a href="/tin-tuc-tong-hop-vnexpress.html">Vnexpress</a></li>
-
-                                            <li><a href="/tin-tuc-tong-hop-thanh-nien.html">Thanh Niên</a></li>
-
-                                            <li><a href="/tin-tuc-tong-hop-bao-tin-tuc.html">Tuổi Trẻ</a>
+                                            {% for item in items_feed_sidebar_menu %}
+                                                <li><a {% if item_feed.name == item.name %} class="text-primary" {% endif %} href="{{ item.get_absolute_url }}" >{{ item.name }}</a></li>
+                                            {% endfor %}
                                             </li>
 
                                         </ul>
                                     </li>
+                                    <li><a href="{% url 'about' %}">Giới Thiệu</a></li>
+                                    <li><a href="{% url 'contact' %}">Liên Hệ</a></li>
                                 </ul>
                             </nav>
                         </div>
