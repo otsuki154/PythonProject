@@ -5,4 +5,4 @@ django-tinymce
 django_cleanup
 Pillow
 feedparser
-BeautifulSoup
+BeautifulSoup4
