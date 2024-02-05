@@ -1,22 +1,11 @@
 # Các phần mềm cần thiết trong khóa học
-1. Editor: Visual Studio Code : https://zendvn.com/bai-viet/huong-dan-su-dung-visual-studio-code-a-z-toan-tap-10
-2. Python 3.11.3 ->
-3. Xampp 8.2.4 ->
+1. Visual Studio Code tham khảo tại https://zendvn.com/bai-viet/huong-dan-su-dung-visual-studio-code-a-z-toan-tap-10
+2. Python
+3. Postgres
 # Các extension visual studio code
 1. Python (Microsoft)
 2. Django
 3. Material Icon Theme
-# Lưu ý
-- Nên sử dụng editor giống mình để học hiệu quả hơn.
-- Nên sử dụng 1 profile chrome riêng để học.
-- Tránh cài nhiều extension vào profile đó.
-
-# Tip fix bug nhanh
-- Nhớ bật Xampp, start Apache và start MySQL mỗi khi mở máy lên học.
-- Xem kỹ từng dấu, ký tự đặc biệt và cả khoảng trắng trong video khi code theo nhưng gặp lỗi.
-- Khi code bị lỗi thì có thể download phần mã nguồn tại video để tham khảo.
-- Search google trước khi hỏi sẽ giúp tăng khả năng nghiên cứu, giải quyết vấn đề, hình thành thói quen tự lực.
-- Nếu có tự thay đổi gì ở phần css, js của template thì phải xóa cache trình duyệt đi rồi refresh trang web lại để xem sự thay đổi (học tới phần có giao diện web tin tức, bán hàng thì lưu ý).
 
 # Module
 1. Việc phân chia module dựa vào nhiều yếu tố
@@ -42,14 +31,15 @@
 - Tạo app mới: python manage.py startapp polls
 - Tạo mới, áp dụng sự thay đổi cho cơ sở dữ liệu: python manage.py migrate
 - Tạo user mới: python manage.py createsuperuser
-# Áp dụng MySQL
-- Tạo database mới tại phpmyadmin
+# Áp dụng Postgres
+- Tạo database mới tại postgres  
+create database djangodb owner postgres;
 - Config database tại settings.py
 - Chạy lệnh python manage.py migrate
 # Xây dựng quản lý Category - Thêm Sửa Xóa Đọc - CRUD
 - Tạo Category, khai báo các trường tại models.py
-- Khai báo app news tại INSTALLED_APP trong settings.py
-- python manage.py makemigrations news
+- Khai báo app home tại INSTALLED_APP trong settings.py
+- python manage.py makemigrations home
 - python manage.py migrate
 - Thiết lập phần hiển thị cho Category tại admin.py
 - Tạo slug từ động từ name
@@ -75,6 +65,7 @@
 # Xây dựng trang hiển thị bài viết của mỗi Category
 - Dùng get_object_or_404 để tìm dữ liệu trong database (trả về lỗi 404 khi không tìm thấy).
 - Lọc bài viết theo category, status và publish_date (filter).
+- Đổ dữ liệu bài viết thì dùng safe để đổ html, cắt bớt chuổi bằng truncatechars  <p>{{item.content | safe | truncatechars:200 }}</p>
 - Sắp xếp bài viết mới nhất trước (order).
 - Phân trang bằng Paginator.
 - Render html và truyền ra biến dữ liệu để sử dụng tại template.

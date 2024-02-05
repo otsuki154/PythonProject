@@ -139,7 +139,7 @@ STATICFILES_DIRS = (
 )
 
 # Base url to serve media files
-MEDIA_URL = '/media/'
+MEDIA_URL = '/media/' #quy định các file media(image, audio, video...) bắt đầu url bằng tiền tố này
 # Path where media is stored
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 

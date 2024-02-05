@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 
 from tinymce.models import HTMLField
 from .helpers import *
@@ -40,6 +40,10 @@ class Artical(models.Model):
 
     def __str__(self) -> str:
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse("artical", kwargs={"artical_slug": self.slug})
+    
 
 class Feed(models.Model):
 

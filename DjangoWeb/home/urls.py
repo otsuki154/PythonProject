@@ -7,12 +7,12 @@ from django.conf.urls.static import static
 urlpatterns = [
 
     path('', views.index, name = "index"),
-    path('category/', views.category, name = "category"),
-    path('artical/', views.artical, name = "artical"),
+    path('category/<slug:catagory_slug>', views.category, name = "catagory"),
+    path('artical/<slug:artical_slug>', views.artical, name = "artical"),
     path('feed/', views.feed, name = "feed"),
     path('search/', views.search, name = "search"),
 
-    
+
     path('tinymce/', include('tinymce.urls')),
 
 ]
