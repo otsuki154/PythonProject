@@ -14,11 +14,11 @@ import json
 
 def index(request):
 
-    items_artical_special = Artical.objects.filter(special=True, status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("publish_date")[:5]
+    items_artical_special = Artical.objects.filter(special=True, status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("-publish_date")[:5]
     items_catagory = Catagory.objects.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE , is_homepage = True).order_by("ordering")
 
     for catagory in items_catagory:
-        catagory.artical_filter = catagory.artical_set.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("publish_date")
+        catagory.artical_filter = catagory.artical_set.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("-publish_date")
 
     return render(request, TABLE_PATH_FILE + 'index.html',{
         "title_page":"春秋-Trang chủ",
@@ -31,7 +31,7 @@ def category(request,catagory_slug):
     #lấy thông tin catarory
     item_catagory = get_object_or_404(Catagory, slug=catagory_slug, status=APP_VALUE_STATUS_ACTIVE_DEFINE )
     #lấy artical thuộc catarory
-    items_artical = Artical.objects.filter(catagory=item_catagory, status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("publish_date")
+    items_artical = Artical.objects.filter(catagory=item_catagory, status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("-publish_date")
 
     #phân trang
     paginator = Paginator(items_artical, APP_VALUE_ARTICAL_NUM_IN_PAGE_DEFINE)
@@ -50,7 +50,7 @@ def artical(request,artical_slug,artical_id):
 
       #lấy thông tin catarory
     item_artical = get_object_or_404(Artical, id=artical_id, slug=artical_slug,status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now())
-    items_artical_related = Artical.objects.filter(catagory=item_artical.catagory, status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("publish_date").exclude(slug=artical_slug)[:APP_VALUE_ARTICAL_RELATED_MAX_DEFINE]
+    items_artical_related = Artical.objects.filter(catagory=item_artical.catagory, status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("-publish_date").exclude(slug=artical_slug)[:APP_VALUE_ARTICAL_RELATED_MAX_DEFINE]
 
     return render(request, TABLE_PATH_FILE + 'artical.html',{
         "item_artical":item_artical,

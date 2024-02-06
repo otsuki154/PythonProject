@@ -1,75 +1,36 @@
 import psycopg2
-import re
-import os
-import requests
-from bs4 import BeautifulSoup
 from psycopg2 import sql
+import re
 from unidecode import unidecode
 from datetime import datetime
 
-# Thông tin kết nối đến PostgreSQL
-database_name = "djangodb"
-user = "postgres"
-password = "postgres"
-host = "localhost"
-port = "5433"
 
+import os
+import requests
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin
+
+# Danh sách các đường link bài báo trên VnExpress
+article_urls = [
+    'https://vnexpress.net/noi-lo-the-he-trong-giac-mo-world-cup-4709161.html',
+    'https://vnexpress.net/klinsmann-cam-thay-han-quoc-giong-argentina-o-world-cup-2022-4709369.html',
+]
 
 # Thư mục để lưu trữ hình ảnh
 image_folder = "/Users/ThanhNV177/Project/PycharmProjects/DjangoWeb/static/home/images/artical"
 
-# url = "https://vnexpress.net/the-thao"
-url = "https://vnexpress.net/kinh-doanh"
-# url = "https://vnexpress.net/thoi-su/chinh-tri"
-# local
-# 3:thể thao
-# 4:kinh doanh
-# 5:chính trị
-# 6:khoa học
-
-# ubuntu server
-# 2:chính trị
-# 3:kinh doanh
-# 4:thể thao
-# 5:khoa học
-
-catagoryid = 4
-
 # Tạo thư mục nếu chưa tồn tại
 os.makedirs(image_folder, exist_ok=True)
-
-
-def convert_to_formatted_time(date_str):
-    # Tách chuỗi theo dấu phẩy
-    date_parts = date_str.split(", ")
-    try:
-        # Ghép lại các phần tử cần thiết
-        formatted_date_str = f"{date_parts[1]} {date_parts[2].replace(' (GMT+7)', '')}"
-        # Chuyển đổi thành đối tượng datetime
-        date_obj = datetime.strptime(formatted_date_str, "%d/%m/%Y %H:%M")
-
-        # Định dạng lại ngày thành chuỗi theo định dạng mong muốn
-        formatted_time = date_obj.strftime("%Y-%m-%d %H:%M:%S")
-        return formatted_time
-    except Exception as e:
-        return ""
-
 
 def get_article_content(url):
     # Gửi yêu cầu HTTP để lấy nội dung trang web
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
-        # Bỏ nội dung trong thẻ span có class location-stamp
-        for span_tag in soup.find_all("span", class_="location-stamp"):
-            span_tag.decompose()
+
         # Lấy tiêu đề
         title_tag = soup.find('h1', class_='title-detail')
         title = title_tag.text.strip() if title_tag else "No Title"
-        # Lấy date
-        date_tag = soup.find('span', class_='date')
-        date = date_tag.text.strip() if title_tag else "No Date"
-        published_date = convert_to_formatted_time(date)
         # Lấy mô tả
         description_tag = soup.find('p', class_='description')
         description = description_tag.text.strip() if description_tag else "No Description"
@@ -83,10 +44,9 @@ def get_article_content(url):
             if p_tag:
                 content += "<p>" + p_tag.text.strip()+ "</p>"
 
-        html_content = "<p>"+ description+ "</p>" + content
-
+        html_content = description + content
         # Lấy đường link hình ảnh
-        image_url = None
+        image_url= None
         # Lấy nội dung bài báo
         article_content = soup.find('article', class_='fck_detail')
         if article_content:
@@ -94,10 +54,11 @@ def get_article_content(url):
             if image_tag:
                 image_url = image_tag['src'] if image_tag and 'src' in image_tag.attrs else None
 
-        return title, html_content, image_url,published_date
+        return title, html_content, image_url
     else:
         print(f"Failed to fetch content. Status code: {response.status_code}")
     return None
+
 
 def download_image(image_url, article_title):
     if image_url:
@@ -108,6 +69,10 @@ def download_image(image_url, article_title):
         image_data = requests.get(image_url).content
         with open(full_image_path, 'wb') as image_file:
             image_file.write(image_data)
+
+
+
+
 
 def slugify(name):
     # Chuyển đổi chuỗi thành chữ thường và loại bỏ dấu
@@ -122,6 +87,7 @@ def slugify(name):
     slug = slug.replace(' ', '-')
     return slug
 
+
 def get_current_time():
     # Lấy thời gian hiện tại
     current_time = datetime.now()
@@ -134,6 +100,12 @@ def get_current_time():
 
 
 
+# Thông tin kết nối đến PostgreSQL
+database_name = "djangodb"
+user = "postgres"
+password = "postgres"
+host = "localhost"
+port = "5433"
 
 # Kết nối đến PostgreSQL
 conn = psycopg2.connect(
@@ -144,9 +116,13 @@ conn = psycopg2.connect(
     port=port
 )
 
+url = "https://vnexpress.net/thoi-su/chinh-tri"
+
 # Gửi yêu cầu GET đến trang web và lấy nội dung HTML
+response = requests.get(url)
+html_content = response.text
 # Sử dụng BeautifulSoup để phân tích HTML
-soup = BeautifulSoup(requests.get(url).text, "html.parser")
+soup = BeautifulSoup(html_content, "html.parser")
 # Lấy danh sách các bài báo
 articles = soup.select("p.description a")
 article_links = []
@@ -155,43 +131,45 @@ for article in articles:
         article_links.append(article["href"] )
 
 
+
 # Tạo một đối tượng cursor để thực hiện các truy vấn SQL
 cur = conn.cursor()
 
 try:
     # # Xoá tất cả các bản ghi từ bảng
+    # Xác định bảng và điều kiện xoá
     table_identifier = sql.Identifier("public", "home_artical")
-    condition = sql.SQL("catagory_id = {}").format(sql.Literal(catagoryid))  # Thay đổi giá trị điều kiện nếu cần
+    condition = sql.SQL("catagory_id = {}").format(sql.Literal(5))  # Thay đổi giá trị điều kiện nếu cần
 
-    # DELETE dữ liệu cũ
+    # Tạo câu lệnh DELETE
     delete_query = sql.SQL("DELETE FROM {} WHERE {}").format(table_identifier, condition)
+
     cur.execute(delete_query)
+
 
     # Chèn dữ liệu mới
     insert_query = sql.SQL("""
         INSERT INTO public.home_artical ("name", slug, special, publish_date, content, image, catagory_id, status, ordering)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
     """)
-    # Tạo insert data
-    i = 1
+    # Lặp qua danh sách các đường link bài báo và lấy thông tin
     for article_url in article_links[1:]:
-        title, content, image_url, public_date = get_article_content(article_url)
+        title, content, image_url = get_article_content(article_url)
         if image_url is None or content == 'No Content':
             continue
         slug = slugify(title)
-        if i < 3:
-            special = True
-        else:
-            special = False
-        # public_date = get_current_time()
+        special = True
+        public_date = get_current_time()
         image = "home/images/artical/" + slug + ".jpg"
+        catagoryid = 5
         status = "published"
-        ordering = i
-        i += 1
+        ordering = 1
         # Dữ liệu mẫu, bạn có thể thay đổi tùy theo nhu cầu
-        insert_data = [
-            (title, slug, special, public_date, content, image, catagoryid, status, ordering),]
-        cur.executemany(insert_query, insert_data)
+        sample_data = [
+            (title, slug, special, public_date, content, image, catagoryid, status, ordering),
+            # Thêm các bản ghi khác tùy theo nhu cầu
+        ]
+        cur.executemany(insert_query, sample_data)
 
         # Tải hình ảnh và lưu vào thư mục images
         download_image(image_url, slugify(title))
