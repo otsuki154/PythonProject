@@ -6,3 +6,4 @@ django_cleanup
 Pillow
 feedparser
 BeautifulSoup4
+requests
