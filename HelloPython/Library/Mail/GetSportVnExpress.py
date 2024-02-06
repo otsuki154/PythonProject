@@ -16,10 +16,11 @@ port = "5433"
 
 
 # Thư mục để lưu trữ hình ảnh
-image_folder = "/Users/ThanhNV177/Project/PycharmProjects/DjangoWeb/static/home/images/artical"
+# image_folder = "/Users/ThanhNV177/Project/PycharmProjects/DjangoWeb/static/home/images/artical"
+image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"
 
-# url = "https://vnexpress.net/the-thao"
-url = "https://vnexpress.net/kinh-doanh"
+url = "https://vnexpress.net/the-thao"
+# url = "https://vnexpress.net/kinh-doanh"
 # url = "https://vnexpress.net/thoi-su/chinh-tri"
 # local
 # 3:thể thao
