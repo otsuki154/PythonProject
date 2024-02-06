@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
      'tinymce',
      'django_cleanup.apps.CleanupConfig', # should be placed after your apps
+     'django.contrib.humanize', # để filter số
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,8 @@ TEMPLATES = [
                 'home.my_context.items_feed_sidebar_recent', # lấy context được lấy ở my_context
                 'home.my_context.items_feed_sidebar_random', # lấy context được lấy ở my_context
                 'home.my_context.items_feed_sidebar_trending', # lấy context được lấy ở my_context
+                'home.my_context.items_price_sidebar_coin', # lấy context được lấy ở my_context
+                'home.my_context.items_price_sidebar_gold', # lấy context được lấy ở my_context
             ],
         },
     },

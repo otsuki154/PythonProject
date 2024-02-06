@@ -45,7 +45,7 @@ class Artical(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return reverse("artical", kwargs={"artical_slug": self.slug})
+        return reverse("artical", kwargs={"artical_slug": self.slug, 'artical_id':self.id})
     
 
 class Feed(models.Model):

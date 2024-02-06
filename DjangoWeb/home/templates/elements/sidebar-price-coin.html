@@ -1,56 +1,27 @@
 {% load static %}
-<aside class="single_sidebar_widget post_category_widget">
-    <h4 class="widget_title mb-2" style="margin-bottom: 0 !important;">Giá Coin</h4>
-    <table class="table" style="width: 100%;">
-        <thead>
-            <tr>
-                <th>Tên</th>
-                <th>Giá</th>
-                <th>Biến Động</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            <tr>
-                <td>Bitcoin</td>
-                <td>30,987.57</td>
-                <td class="text-success">
-                    3.05 %
-                </td>
-            </tr>
-
-            <tr>
-                <td>Ethereum</td>
-                <td>2,114.96</td>
-                <td class="text-success">
-                    10.37 %
-                </td>
-            </tr>
-
-            <tr>
-                <td>Tether</td>
-                <td>1.00</td>
-                <td class="text-success">
-                    0.01 %
-                </td>
-            </tr>
-
-            <tr>
-                <td>BNB</td>
-                <td>334.23</td>
-                <td class="text-success">
-                    4.88 %
-                </td>
-            </tr>
-
-            <tr>
-                <td>USD Coin</td>
-                <td>1.00</td>
-                <td class="text-danger">
-                    0.00 %
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-</aside>
+{% load humanize %}
+{%if items_price_sidebar_coin|length > 0 %}
+    <aside class="single_sidebar_widget post_category_widget">
+        <h4 class="widget_title mb-2" style="margin-bottom: 0 !important;">Giá Coin</h4>
+        <table class="table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Tên</th>
+                    <th>Giá</th>
+                    <th>Thay đổi(24h)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in  items_price_sidebar_coin%}
+                    <tr>
+                        <td>{{item.name}}</td>
+                        <td>{{item.price|floatformat:3|intcomma}}</td>
+                        <td {%if item.percent_change_24h > 0 %} class="text-success" {%else%} class="text-danger" {%endif%}>
+                            {{item.percent_change_24h|floatformat:2}}%
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </aside>
+{% endif %}

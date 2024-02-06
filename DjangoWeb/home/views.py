@@ -46,10 +46,10 @@ def category(request,catagory_slug):
         "paginator":paginator,
     })
 
-def artical(request,artical_slug):
+def artical(request,artical_slug,artical_id):
 
       #lấy thông tin catarory
-    item_artical = get_object_or_404(Artical, slug=artical_slug,status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now())
+    item_artical = get_object_or_404(Artical, id=artical_id, slug=artical_slug,status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now())
     items_artical_related = Artical.objects.filter(catagory=item_artical.catagory, status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("-publish_date").exclude(slug=artical_slug)[:APP_VALUE_ARTICAL_RELATED_MAX_DEFINE]
 
     return render(request, TABLE_PATH_FILE + 'artical.html',{
@@ -69,7 +69,7 @@ def feed(request,feed_slug):
     for entry in feed.entries:
         soup = BeautifulSoup(entry.summary,'html.parser')
         img_tag = soup.find('img')
-        img_src = APP_VALUE_DÈAULT_IMG_DEFINE
+        img_src = APP_VALUE_DEFAULT_IMG_DEFINE
         if img_tag:
             img_src = img_tag['src']
         item = {

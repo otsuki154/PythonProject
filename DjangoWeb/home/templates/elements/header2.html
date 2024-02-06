@@ -1,3 +1,5 @@
+{% load static %}
+
 <!-- Header Start -->
 
 <div class="header-area">
@@ -31,22 +33,18 @@
                     <div class="col-xl-8 col-lg-8 col-md-12 header-flex">
                         <!-- sticky -->
                         <div class="sticky-logo">
-                            <a href="/"><img src="home/assets/img/logo/logo_zendvn.png" alt=""></a>
+                            <a href="/"><img src={{img_src}} alt=""></a>
                         </div>
                         <!-- Main-menu -->
                         <div class="main-menu d-none d-md-block">
                             <nav>
                                 <ul id="navigation">
                                     <li><a href="{% url 'index' %}">Trang Chủ</a></li>
-                                    
-                                    <li><a href="#">Danh Mục</a>
-                                        <ul class="submenu">
-                                            {% for item in items_catagory_sidebar_menu %}
-                                                <li><a {% if item_catagory.name == item.name %} class="text-primary" {% endif %} href="{{ item.get_absolute_url }}">{{item.name}}</a></li>
-                                            {% endfor %}
-
-                                        </ul>
+                                    {% for item in items_catagory_sidebar_menu %}
+                                    <li><a {% if item_catagory.name == item.name %} class="text-primary" {% endif %} href="{{ item.get_absolute_url }}">{{item.name}}</a>
+                                        
                                     </li>
+                                    {% endfor %}
                                     <li><a href="#">Tin Tổng Hợp</a>
                                         <ul class="submenu">
                                             {% for item in items_feed_sidebar_menu %}
@@ -56,8 +54,8 @@
 
                                         </ul>
                                     </li>
-                                    <li><a href="{% url 'about' %}">Giới Thiệu</a></li>
-                                    <li><a href="{% url 'contact' %}">Liên Hệ</a></li>
+                                    {% comment %} <li><a href="{% url 'about' %}">Giới Thiệu</a></li>
+                                    <li><a href="{% url 'contact' %}">Liên Hệ</a></li> {% endcomment %}
                                 </ul>
                             </nav>
                         </div>

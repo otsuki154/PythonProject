@@ -198,6 +198,7 @@ active phía client: 10 người dùng => gửi yêu cầu => html, css, js => a
 - Tham khảo tại: https://dev.to/tkirwa/deploying-django-project-on-an-ubuntu-server-32jb
 1. Install postgresql
    - đặt lại mật khẩu cho user postgres là postgres
+     > psql -U postgres -p 5432 -h localhost -d djangodb
      > create database djangodb owner postgres;
 2. Cài đặt python và môi trường ảo (nếu đã installed thì không cần)
    > sudo apt install python3 python3-venv 
