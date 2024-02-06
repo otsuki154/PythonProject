@@ -204,6 +204,7 @@ active phía client: 10 người dùng => gửi yêu cầu => html, css, js => a
    > sudo apt install python3 python3-venv 
 3. Di chuyển đến folder dự án và tạo và kích hoạt môi trường ảo  
    cd code-server/config/PythonProject/DjangoWeb  
+   rm -r /home/thanh/code-server/config/PythonProject/DjangoWeb/DjangoWeb/settings.py  
    python3 -m venv venv  
    source venv/bin/activate  
 4. Tạo file requirements.txt có nội dung(chưa các thư viện cần cài đặt để chạy được dự án)  

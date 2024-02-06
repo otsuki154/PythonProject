@@ -1,6 +1,7 @@
 from .models import Catagory,Feed,Artical
 from django.utils import timezone
 from .define import *
+from .helpers import *
 from django.db.models import Count
 import requests
 import json
@@ -22,7 +23,7 @@ def items_feed_sidebar_menu(request):
 
 
 def items_feed_sidebar_recent(request):
-    skip_slug = request.get_full_path().replace("/artical/","")
+    skip_slug = get_skip_slug_artical(request.path)
     items_feed_sidebar_recent = Artical.objects.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("-publish_date").exclude(slug=skip_slug)[:APP_VALUE_FEED_NUM_RECENT_SIDEBAR_DEFINE]
     
     return {"items_feed_sidebar_recent":items_feed_sidebar_recent}
@@ -30,7 +31,7 @@ def items_feed_sidebar_recent(request):
 
 
 def items_feed_sidebar_random(request):
-    skip_slug = request.get_full_path().replace("/artical/","")
+    skip_slug = get_skip_slug_artical(request.path)
     items_feed_sidebar_random = Artical.objects.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("?").exclude(slug=skip_slug)[:APP_VALUE_FEED_NUM_RANDOM_FOOTER_DEFINE]
     
     return {"items_feed_sidebar_random":items_feed_sidebar_random,
@@ -39,7 +40,7 @@ def items_feed_sidebar_random(request):
 
 
 def items_feed_sidebar_trending(request):
-    skip_slug = request.get_full_path().replace("/artical/","")
+    skip_slug = get_skip_slug_artical(request.path)
     items_feed_sidebar_trending = Artical.objects.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("?").exclude(slug=skip_slug)[:APP_VALUE_FEED_NUM_TRENDING_FOOTER_DEFINE]
     
     return {"items_feed_sidebar_trending":items_feed_sidebar_trending}
