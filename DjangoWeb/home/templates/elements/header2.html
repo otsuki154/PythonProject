@@ -30,7 +30,7 @@
         <div class="header-bottom header-sticky">
             <div class="container-fluid">
                 <div class="row align-items-center">
-                    <div class="col-xl-8 col-lg-8 col-md-12 header-flex">
+                    <div class="col-xl-12 col-lg-12 col-md-12 header-flex">
                         <!-- sticky -->
                         <div class="sticky-logo">
                             <a href="/"><img src="" alt=""></a>
@@ -41,9 +41,9 @@
                                 <ul id="navigation">
                                     <li><a href="{% url 'index' %}">Trang Chủ</a></li>
                                     {% for item in items_catagory_sidebar_menu %}
-                                    <li><a {% if item_catagory.name == item.name %} class="text-primary" {% endif %} href="{{ item.get_absolute_url }}">{{item.name}}</a>
-                                        
-                                    </li>
+                                        <li><a {% if item_catagory.name == item.name %} class="text-primary" {% endif %} href="{{ item.get_absolute_url }}">{{item.name}}</a>
+                                            
+                                        </li>
                                     {% endfor %}
                                     <li><a href="#">Tin Tổng Hợp</a>
                                         <ul class="submenu">
@@ -56,25 +56,29 @@
                                     </li>
                                     {% comment %} <li><a href="{% url 'about' %}">Giới Thiệu</a></li>
                                     <li><a href="{% url 'contact' %}">Liên Hệ</a></li> {% endcomment %}
+                                    <!-- Search Nav -->
+                                    <div class="nav-search search-switch">
+                                        <i class="fa fa-search"></i>
+                                    </div>
                                 </ul>
                             </nav>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-4 col-md-4">
+                    {% comment %} <div class="col-xl-2 col-lg-2col-md-2">
                         <div class="header-right f-right d-none d-lg-block">
                             <!-- Heder social -->
                             <ul class="header-social">
                                 <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
                                 <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                <li> <a href="#"><i class="fab fa-youtube"></i></a></li>
+                                <li> <a href="#"><i class="fab fa-youtube"></i></a></li> 
+                                <div class="nav-search search-switch">
+                                    <i class="fa fa-search"></i>
+                                </div>
                             </ul>
-                            <!-- Search Nav -->
-                            <div class="nav-search search-switch">
-                                <i class="fa fa-search"></i>
-                            </div>
+                            
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                     <!-- Mobile Menu -->
                     <div class="col-12">
                         <div class="mobile_menu d-block d-md-none"></div>

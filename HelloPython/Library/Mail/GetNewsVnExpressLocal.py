@@ -7,19 +7,13 @@ from psycopg2 import sql
 from unidecode import unidecode
 from datetime import datetime
 
-# Thông tin kết nối đến PostgreSQL
-database_name = "djangodb"
-user = "postgres"
-password = "postgres"
-host = "localhost"
-port = "5433"
 
 
-# Thư mục để lưu trữ hình ảnh
-# image_folder = "/Users/ThanhNV177/Project/PycharmProjects/DjangoWeb/static/home/images/artical"
-image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"
 
-url = "https://vnexpress.net/the-thao"
+
+#image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"
+
+
 # url = "https://vnexpress.net/kinh-doanh"
 # url = "https://vnexpress.net/thoi-su/chinh-tri"
 # local
@@ -34,10 +28,6 @@ url = "https://vnexpress.net/the-thao"
 # 4:thể thao
 # 5:khoa học
 
-catagoryid = 4
-
-# Tạo thư mục nếu chưa tồn tại
-os.makedirs(image_folder, exist_ok=True)
 
 
 def convert_to_formatted_time(date_str):
@@ -54,7 +44,6 @@ def convert_to_formatted_time(date_str):
         return formatted_time
     except Exception as e:
         return ""
-
 
 def get_article_content(url):
     # Gửi yêu cầu HTTP để lấy nội dung trang web
@@ -100,7 +89,9 @@ def get_article_content(url):
         print(f"Failed to fetch content. Status code: {response.status_code}")
     return None
 
-def download_image(image_url, article_title):
+def download_image(image_folder,image_url, article_title):
+    # Tạo thư mục nếu chưa tồn tại
+    os.makedirs(image_folder, exist_ok=True)
     if image_url:
         # Tạo đường dẫn đầy đủ cho hình ảnh
         full_image_path = os.path.join(image_folder, f"{article_title}.jpg")
@@ -123,64 +114,25 @@ def slugify(name):
     slug = slug.replace(' ', '-')
     return slug
 
-def get_current_time():
-    # Lấy thời gian hiện tại
-    current_time = datetime.now()
+def getArtcalDataInfors(url,image_folder,catagoryId):
+    # Lấy danh sách các bài báo
+    article_links = []
+    soup = BeautifulSoup(requests.get(url).text, "html.parser")
+    articles = soup.select("p.description a")
+    for article in articles:
+        if 'box_comment_vne' not in article["href"]:
+            article_links.append(article["href"] )
 
-    # Định dạng thời gian theo yêu cầu
-    formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
-
-    return formatted_time
-
-
-
-
-
-# Kết nối đến PostgreSQL
-conn = psycopg2.connect(
-    dbname=database_name,
-    user=user,
-    password=password,
-    host=host,
-    port=port
-)
-
-# Gửi yêu cầu GET đến trang web và lấy nội dung HTML
-# Sử dụng BeautifulSoup để phân tích HTML
-soup = BeautifulSoup(requests.get(url).text, "html.parser")
-# Lấy danh sách các bài báo
-articles = soup.select("p.description a")
-article_links = []
-for article in articles:
-    if 'box_comment_vne' not in article["href"]:
-        article_links.append(article["href"] )
-
-
-# Tạo một đối tượng cursor để thực hiện các truy vấn SQL
-cur = conn.cursor()
-
-try:
-    # # Xoá tất cả các bản ghi từ bảng
-    table_identifier = sql.Identifier("public", "home_artical")
-    condition = sql.SQL("catagory_id = {}").format(sql.Literal(catagoryid))  # Thay đổi giá trị điều kiện nếu cần
-
-    # DELETE dữ liệu cũ
-    delete_query = sql.SQL("DELETE FROM {} WHERE {}").format(table_identifier, condition)
-    cur.execute(delete_query)
-
-    # Chèn dữ liệu mới
-    insert_query = sql.SQL("""
-        INSERT INTO public.home_artical ("name", slug, special, publish_date, content, image, catagory_id, status, ordering)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """)
     # Tạo insert data
+    insertData = []
+
     i = 1
     for article_url in article_links[1:]:
         title, content, image_url, public_date = get_article_content(article_url)
         if image_url is None or content == 'No Content':
             continue
         slug = slugify(title)
-        if i < 3:
+        if i == 1:
             special = True
         else:
             special = False
@@ -190,16 +142,76 @@ try:
         ordering = i
         i += 1
         # Dữ liệu mẫu, bạn có thể thay đổi tùy theo nhu cầu
-        insert_data = [
-            (title, slug, special, public_date, content, image, catagoryid, status, ordering),]
-        cur.executemany(insert_query, insert_data)
+        articleInfor = (title, slug, special, public_date, content, image, catagoryId, status, ordering)
+        insertData.append(articleInfor)
 
         # Tải hình ảnh và lưu vào thư mục images
-        download_image(image_url, slugify(title))
-    # Commit lại để lưu thay đổi
-    conn.commit()
+        download_image(image_folder,image_url, slugify(title))
 
-finally:
-    # Đóng kết nối
-    cur.close()
-    conn.close()
+    return insertData
+
+def UpdateAritcleDataInfors(insertData,catagoryid):
+
+    # Kết nối đến PostgreSQL
+    conn = psycopg2.connect(
+        dbname="djangodb",
+        user="postgres",
+        password="postgres",
+        host="localhost",
+        port="5433"
+    )
+
+    # Tạo một đối tượng cursor để thực hiện các truy vấn SQL
+    cur = conn.cursor()
+
+    try:
+        # Xoá tất cả các bản ghi từ bảng
+        table_identifier = sql.Identifier("public", "home_artical")
+        condition = sql.SQL("catagory_id = {}").format(sql.Literal(catagoryid))  # Thay đổi giá trị điều kiện nếu cần
+
+        # DELETE dữ liệu cũ
+        delete_query = sql.SQL("DELETE FROM {} WHERE {}").format(table_identifier, condition)
+        cur.execute(delete_query)
+
+        # Create SQL query
+        insert_query = sql.SQL("""
+            INSERT INTO public.home_artical ("name", slug, special, publish_date, content, image, catagory_id, status, ordering)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """)
+
+        # Insert Article Datas
+        cur.executemany(insert_query, insertData)
+        conn.commit()
+
+    finally:
+        # Đóng kết nối
+        cur.close()
+        conn.close()
+
+
+if __name__ == "__main__":
+
+    urls = [
+            "https://vnexpress.net/the-thao",
+            "https://vnexpress.net/kinh-doanh",
+            "https://vnexpress.net/thoi-su/chinh-tri",
+            "https://vnexpress.net/khoa-hoc",
+            "https://vnexpress.net/the-gioi",
+            "https://vnexpress.net/giao-duc",
+            ]
+    categoryIds = [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                   ]
+
+    # Thư mục để lưu trữ hình ảnh
+    image_folder = "/Users/ThanhNV177/Project/PycharmProjects/DjangoWeb/static/home/images/artical"
+    combined_dict = dict(zip(categoryIds, urls))
+    for categoryId, url in combined_dict.items():
+
+        insertData = getArtcalDataInfors(url,image_folder,categoryId)
+        UpdateAritcleDataInfors(insertData,categoryId)

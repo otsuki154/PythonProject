@@ -243,3 +243,7 @@ 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
 - Client - Khách Truy Cập
 - Admin - Phía Quản Lý
 
+
+psql -U postgres -p 5432 -h localhost -d djangodb
+source venv/bin/activate 
+python manage.py runserver 192.168.0.228:8585 

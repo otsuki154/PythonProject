@@ -39,7 +39,9 @@ Chạy code python
 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
 /usr/bin/python3 /home/thanh/code-server/config/PythonProject/HelloPython/Library/Mail/SendGmail.py
 /usr/bin/python3 /home/thanh/code-server/config/PythonProject/HelloPython/Library/Mail/GetSportVnExpress.py
+/usr/bin/python3 /home/thanh/code-server/config/PythonProject/HelloPython/Library/Mail/GetKindoanhVnExpress.py
 
+/usr/bin/python3 /home/thanh/code-server/config/PythonProject/HelloPython/Library/Mail/GetChinhTriVnExpress.py
 
 crontab guru
 https://crontab.guru/#0_6,20_*_*_mon
