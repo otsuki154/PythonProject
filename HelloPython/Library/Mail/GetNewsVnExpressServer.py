@@ -186,7 +186,7 @@ if __name__ == "__main__":
     ]
 
     # Thư mục để lưu trữ hình ảnh
-    image_folder = "/Users/ThanhNV177/Project/PycharmProjects/DjangoWeb/static/home/images/artical"
+    image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"
     combined_dict = dict(zip(categoryIds, urls))
     for categoryId, url in combined_dict.items():
 
