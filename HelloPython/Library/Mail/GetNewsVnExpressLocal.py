@@ -7,29 +7,6 @@ from psycopg2 import sql
 from unidecode import unidecode
 from datetime import datetime
 
-
-
-
-
-#image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"
-
-
-# url = "https://vnexpress.net/kinh-doanh"
-# url = "https://vnexpress.net/thoi-su/chinh-tri"
-# local
-# 3:thể thao
-# 4:kinh doanh
-# 5:chính trị
-# 6:khoa học
-
-# ubuntu server
-# 2:chính trị
-# 3:kinh doanh
-# 4:thể thao
-# 5:khoa học
-
-
-
 def convert_to_formatted_time(date_str):
     # Tách chuỗi theo dấu phẩy
     date_parts = date_str.split(", ")
@@ -74,6 +51,7 @@ def get_article_content(url):
                 content += "<p>" + p_tag.text.strip()+ "</p>"
 
         html_content = "<p>"+ description+ "</p>" + content
+        html_content.replace("VnExpress","báo Xuân Thu")
 
         # Lấy đường link hình ảnh
         image_url = None
@@ -128,26 +106,30 @@ def getArtcalDataInfors(url,image_folder,catagoryId):
 
     i = 1
     for article_url in article_links[1:]:
-        title, content, image_url, public_date = get_article_content(article_url)
-        if image_url is None or content == 'No Content':
+        try:
+            title, content, image_url, public_date = get_article_content(article_url)
+            if image_url is None or content == 'No Content':
+                print(f'title:{title} imageUrl:{image_url} link:{article_url}')
+                continue
+            slug = slugify(title)
+            if i == 1:
+                special = True
+            else:
+                special = False
+            # public_date = get_current_time()
+            image = "home/images/artical/" + slug + ".jpg"
+            status = "published"
+            ordering = i
+            i += 1
+            # Dữ liệu mẫu, bạn có thể thay đổi tùy theo nhu cầu
+            articleInfor = (title, slug, special, public_date, content, image, catagoryId, status, ordering)
+            insertData.append(articleInfor)
+
+            # Tải hình ảnh và lưu vào thư mục images
+            download_image(image_folder, image_url, slug)
+        except Exception as e:
+            print(f'title:{title} imageUrl:{image_url} link:{article_url}')
             continue
-        slug = slugify(title)
-        if i == 1:
-            special = True
-        else:
-            special = False
-        # public_date = get_current_time()
-        image = "home/images/artical/" + slug + ".jpg"
-        status = "published"
-        ordering = i
-        i += 1
-        # Dữ liệu mẫu, bạn có thể thay đổi tùy theo nhu cầu
-        articleInfor = (title, slug, special, public_date, content, image, catagoryId, status, ordering)
-        insertData.append(articleInfor)
-
-        # Tải hình ảnh và lưu vào thư mục images
-        download_image(image_folder,image_url, slugify(title))
-
     return insertData
 
 def UpdateAritcleDataInfors(insertData,catagoryid):

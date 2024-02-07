@@ -105,26 +105,30 @@ def getArtcalDataInfors(url,image_folder,catagoryId):
 
     i = 1
     for article_url in article_links[1:]:
-        title, content, image_url, public_date = get_article_content(article_url)
-        if image_url is None or content == 'No Content':
+        try:
+            title, content, image_url, public_date = get_article_content(article_url)
+            if image_url is None or content == 'No Content':
+                print(f'title:{title} imageUrl:{image_url} link:{article_url}')
+                continue
+            slug = slugify(title)
+            if i == 1:
+                special = True
+            else:
+                special = False
+            # public_date = get_current_time()
+            image = "home/images/artical/" + slug + ".jpg"
+            status = "published"
+            ordering = i
+            i += 1
+            # Dữ liệu mẫu, bạn có thể thay đổi tùy theo nhu cầu
+            articleInfor = (title, slug, special, public_date, content, image, catagoryId, status, ordering)
+            insertData.append(articleInfor)
+
+            # Tải hình ảnh và lưu vào thư mục images
+            download_image(image_folder, image_url, slug)
+        except Exception as e:
+            print(f'title:{title} imageUrl:{image_url} link:{article_url}')
             continue
-        slug = slugify(title)
-        if i < 3:
-            special = True
-        else:
-            special = False
-        # public_date = get_current_time()
-        image = "home/images/artical/" + slug + ".jpg"
-        status = "published"
-        ordering = i
-        i += 1
-        # Dữ liệu mẫu, bạn có thể thay đổi tùy theo nhu cầu
-        articleInfor = (title, slug, special, public_date, content, image, catagoryId, status, ordering)
-        insertData.append(articleInfor)
-
-        # Tải hình ảnh và lưu vào thư mục images
-        download_image(image_folder,image_url, slugify(title))
-
     return insertData
 
 def UpdateAritcleDataInfors(insertData,catagoryid):
