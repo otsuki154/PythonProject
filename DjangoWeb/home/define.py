@@ -21,8 +21,8 @@ APP_VALUE_GOLD_URL_SIDEBAR_DEFINE = "http://apiforlearning.zendvn.com/api/get-go
 APP_VALUE_COIN_NUM_SIDEBAR_DEFINE = 8
 
 APP_VALUE_GOLD_NUM_SIDEBAR_DEFINE = 5
-APP_VALUE_DEFAULT_IMG_DEFINE = '/media/home/images/feed/tintuc.png'
-APP_VALUE_LOGO_IMG_DEFINE = '/media/home/images/feed/tintuc.png'
+APP_VALUE_DEFAULT_IMG_DEFINE = '/media/home/images/feed/logo.png'
+APP_VALUE_LOGO_IMG_DEFINE = '/media/home/images/feed/logo.png'
 TABLE_CATEGORY_SHOW = "Category"
 TABLE_ARTICAL_SHOW = "Articals"
 TABLE_FEED_SHOW = "Feeds"
