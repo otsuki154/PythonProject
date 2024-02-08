@@ -10,22 +10,26 @@ from datetime import datetime
 def init():
     #Link các mục bài báo
     urls = [
-            "https://vnexpress.net/the-thao",
-            "https://vnexpress.net/kinh-doanh",
-            "https://vnexpress.net/thoi-su/chinh-tri",
-            "https://vnexpress.net/khoa-hoc",
-            "https://vnexpress.net/the-gioi",
-            "https://vnexpress.net/giao-duc",
-            ]
-    #categoryId tương ứng với các mục bài báo
+        "https://vnexpress.net/the-thao",
+        "https://vnexpress.net/kinh-doanh",
+        "https://vnexpress.net/thoi-su/chinh-tri",
+        "https://vnexpress.net/khoa-hoc",
+        "https://vnexpress.net/the-gioi",
+        "https://vnexpress.net/giao-duc",
+        "https://vnexpress.net/giai-tri",
+        "https://vnexpress.net/suc-khoe",
+    ]
+    # categoryId tương ứng với các mục bài báo
     categoryIds = [
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                   ]
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+    ]
     combined_dict = dict(zip(categoryIds, urls))
     # Thư mục để lưu trữ hình ảnh
     image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"

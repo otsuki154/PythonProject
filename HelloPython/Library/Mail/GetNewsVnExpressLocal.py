@@ -16,6 +16,8 @@ def init():
             "https://vnexpress.net/khoa-hoc",
             "https://vnexpress.net/the-gioi",
             "https://vnexpress.net/giao-duc",
+            "https://vnexpress.net/giai-tri",
+            "https://vnexpress.net/suc-khoe",
             ]
     #categoryId tương ứng với các mục bài báo
     categoryIds = [
@@ -25,6 +27,8 @@ def init():
                     6,
                     7,
                     8,
+                    9,
+                    10,
                    ]
     combined_dict = dict(zip(categoryIds, urls))
     # Thư mục để lưu trữ hình ảnh
@@ -137,7 +141,7 @@ def getArtcalDataInfors(url,catagoryId,image_folder):
     insertData = []
 
     i = 1
-    for article_url in article_links[0:5]:
+    for article_url in article_links[0:]:
         try:
             title, content, image_url, public_date = get_article_content(article_url)
             if image_url is None or content == 'No Content':
