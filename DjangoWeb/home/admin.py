@@ -2,6 +2,8 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import Catagory, Artical, Feed
+
+
 from .define import *
 
 class CatagoryAdmin(admin.ModelAdmin):

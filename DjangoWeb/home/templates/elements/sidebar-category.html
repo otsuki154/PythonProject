@@ -5,7 +5,7 @@
         {% for item in items_catagory_sidebar_menu %}
             <li>
                 <a href="{{ item.get_absolute_url }}" class="d-flex">
-                    <p {% if item_catagory.name == item.name %} class="text-primary" {% endif %}>{{ item.name }}({{item.num_artical}})</p>
+                    <p {% if item_catagory.name == item.name or item_artical.catagory.name == item.name %} class="text-primary" {% endif %}>{{ item.name }}({{item.num_artical}})</p>
                 </a>
             </li>
         {% endfor %}

@@ -18,7 +18,7 @@ def index(request):
     items_catagory = Catagory.objects.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE , is_homepage = True).order_by("ordering")
 
     for catagory in items_catagory:
-        catagory.artical_filter = catagory.artical_set.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("-publish_date")
+        catagory.artical_filter = catagory.artical_set.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("-publish_date")[:APP_VALUE_ARTICAL_NUM_MAX_HOMEPAGE_DEFINE]
 
     return render(request, TABLE_PATH_FILE + 'index.html',{
         "title_page":"春秋-Trang chủ",
@@ -62,25 +62,27 @@ def feed(request,feed_slug):
     item_feed = get_object_or_404(Feed, slug=feed_slug,status=APP_VALUE_STATUS_ACTIVE_DEFINE )
     if hasattr(ssl, '_create_unverified_context'):
         ssl._create_default_https_context = ssl._create_unverified_context
+    try:
+        feed = feedparser.parse(item_feed.link)
 
-    feed = feedparser.parse(item_feed.link)
-
-    items_feed = []
-    for entry in feed.entries:
-        soup = BeautifulSoup(entry.summary,'html.parser')
-        img_tag = soup.find('img')
-        img_src = APP_VALUE_DEFAULT_IMG_DEFINE
-        if img_tag:
-            img_src = img_tag['src']
-        item = {
-            'title':entry.title,
-            'link':entry.link,
-            'title':entry.title,
-            'publish_date':entry.published,
-            'img':img_src,
-        }
-        items_feed.append(item)
-
+        items_feed = []
+        for entry in feed.entries:
+            soup = BeautifulSoup(entry.summary,'html.parser')
+            img_tag = soup.find('img')
+            img_src = APP_VALUE_DEFAULT_IMG_DEFINE
+            if img_tag:
+                img_src = img_tag['src']
+            item = {
+                'title':entry.title,
+                'link':entry.link,
+                'title':entry.title,
+                'publish_date':entry.published,
+                'img':img_src,
+            }
+            items_feed.append(item)
+    except:
+        print(f'Get article error {item_feed.link}')
+        
     # chỉ để xem dữ liệu sau khi lấy về
     # with open ('feed.json','w', encoding='utf-8') as f:
     #     json.dump(feed,f, ensure_ascii=False)
@@ -93,6 +95,7 @@ def feed(request,feed_slug):
 
 def search(request):
     keyword = request.GET.get("keyword")
+    print(f'keyword={keyword}')
     items_artical = Artical.objects.filter(name__icontains=keyword, status=APP_VALUE_STATUS_ACTIVE_DEFINE )
 
     #phân trang

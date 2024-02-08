@@ -115,7 +115,9 @@ create database djangodb owner postgres;
 
 # Tối ưu hơn nữa
 - Tách model ra thành nhiều file riêng, xử lý lỗi import model ở các file khác.
-- Tạo template tag render chung 1 template (dành cho những chỗ có cấu trúc html giống nhau)
+- Tạo template tag render chung 1 template (dành cho những chỗ có cấu trúc html giống nhau, tên biến dữ liệu khác nhau, dùng render share)
+- Gọi hightligh thì dùng |[tên hàm]:[tên biến]
+- Gọi render thì [tên hàm] [tên biên1] [tên biến 2]
 
 # Xây dựng website bán hàng (bán cây cảnh)
 
@@ -245,5 +247,12 @@ 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
 
 
 psql -U postgres -p 5432 -h localhost -d djangodb
+
+cd code-server/config/PythonProject/DjangoWeb 
 source venv/bin/activate 
 python manage.py runserver 192.168.0.228:8585 
+
+
+# nhớ thêm unique cho table
+ALTER TABLE public.home_artical
+ADD CONSTRAINT unique_name_slug_constraint UNIQUE (name, slug);
