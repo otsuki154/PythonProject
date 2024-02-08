@@ -29,7 +29,7 @@
 
                             {% else %}
 
-                                {% include "pages/category/grid.html" %}
+                            {% include "pages/category/grid.html" %}
 
                             {% endif %}
                         {% else %}
@@ -55,32 +55,33 @@
                             <ul class="pagination justify-content-start">
                                 {% comment %} Xử lý dấu mũi tên trái {% endcomment %}
                                 {% if items_artical.has_previous %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{items_artical.previous_page_number}}">
-                                        <i class="fas fa-arrow-left text-primary"></i>
-                                    </a>
-                                </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{items_artical.previous_page_number}}">
+                                            <i class="fas fa-arrow-left text-primary"></i>
+                                        </a>
+                                    </li>
                                 {% endif %}
                                 
-
                                 {% comment %} Xử lý active page hiện tại(hiện đậm) {% endcomment %}
-                                {% if page == items_artical.number  %}
-                                    <li class="page-item active"><a class="page-link" href="#">{{page}}</a>
-                                    </li>
-                                {% else  %}
-                                    {% for page in paginator.page_range %}
-                                    <li class="page-item"><a class="page-link"
-                                        href="?page={{page}}">{{page}}</a></li>
-                                    {% endfor %}
-                                {% endif %}
-
+                                {% for page in paginator.page_range %}
+                                    {% if page == items_artical.number  %}
+                                        <li class="page-item active">
+                                            <a class="page-link" href="#">{{page}}</a>
+                                        </li>
+                                    {% else  %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{page}}">{{page}}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
                                 {% comment %} Xử lý dấu mũi tên phải{% endcomment %}
+
                                 {% if items_artical.has_next %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{items_artical.next_page_number}}">
-                                        <i class="fas fa-arrow-right text-primary"></i>
-                                    </a>
-                                </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{items_artical.next_page_number}}">
+                                            <i class="fas fa-arrow-right text-primary"></i>
+                                        </a>
+                                    </li>
                                 {% endif %}
 
                             </ul>

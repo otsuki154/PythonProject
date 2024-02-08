@@ -40,11 +40,12 @@ def category(request,catagory_slug):
     items_artical = paginator.get_page(page)
 
     return render(request, TABLE_PATH_FILE + 'category.html',{
-        "title_page":item_catagory.name,
-        "item_catagory":item_catagory,
-        "items_artical":items_artical,
-        "paginator":paginator,
+        "title_page"    :item_catagory.name,
+        "item_catagory" :item_catagory,
+        'items_artical' :items_artical,
+        'paginator'     :paginator,
     })
+
 
 def artical(request,artical_slug,artical_id):
 
@@ -53,9 +54,9 @@ def artical(request,artical_slug,artical_id):
     items_artical_related = Artical.objects.filter(catagory=item_artical.catagory, status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("-publish_date").exclude(slug=artical_slug)[:APP_VALUE_ARTICAL_RELATED_MAX_DEFINE]
 
     return render(request, TABLE_PATH_FILE + 'artical.html',{
-        "item_artical":item_artical,
-        "items_artical_related":items_artical_related,
-        "title_page":item_artical.name,
+        "item_artical"          :item_artical,
+        "items_artical_related" :items_artical_related,
+        "title_page"            :item_artical.name,
     })
 
 def feed(request,feed_slug):
@@ -73,11 +74,11 @@ def feed(request,feed_slug):
             if img_tag:
                 img_src = img_tag['src']
             item = {
-                'title':entry.title,
-                'link':entry.link,
-                'title':entry.title,
-                'publish_date':entry.published,
-                'img':img_src,
+                'title'         :entry.title,
+                'link'          :entry.link,
+                'title'         :entry.title,
+                'publish_date'  :entry.published,
+                'img'           :img_src,
             }
             items_feed.append(item)
     except:
@@ -88,9 +89,9 @@ def feed(request,feed_slug):
     #     json.dump(feed,f, ensure_ascii=False)
 
     return render(request, TABLE_PATH_FILE + 'feed.html',{
-        "title_page":"Tin tổng hợp - "+item_feed.name,
-        "items_feed":items_feed,
-        "item_feed":item_feed,
+        "title_page"    :"Tin tổng hợp - "+item_feed.name,
+        "items_feed"    :items_feed,
+        "item_feed"     :item_feed,
     })
 
 def search(request):
@@ -105,10 +106,10 @@ def search(request):
     items_artical = paginator.get_page(page)
 
     return render(request, TABLE_PATH_FILE + 'search.html',{
-        "title_page":"Tìm kiếm cho từ khoá " + keyword,
-        "items_artical":items_artical,
-        "keyword":keyword,
-        "paginator":paginator,
+        "title_page"    :"Tìm kiếm cho từ khoá " + keyword,
+        "items_artical" :items_artical,
+        "keyword"       :keyword,
+        "paginator"     :paginator,
     })
 
 def contact(request):
