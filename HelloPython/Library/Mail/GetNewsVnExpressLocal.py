@@ -7,6 +7,38 @@ from psycopg2 import sql
 from unidecode import unidecode
 from datetime import datetime
 
+def init():
+    #Link các mục bài báo
+    urls = [
+            "https://vnexpress.net/the-thao",
+            "https://vnexpress.net/kinh-doanh",
+            "https://vnexpress.net/thoi-su/chinh-tri",
+            "https://vnexpress.net/khoa-hoc",
+            "https://vnexpress.net/the-gioi",
+            "https://vnexpress.net/giao-duc",
+            ]
+    #categoryId tương ứng với các mục bài báo
+    categoryIds = [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                   ]
+    combined_dict = dict(zip(categoryIds, urls))
+    # Thư mục để lưu trữ hình ảnh
+    image_folder = "/Users/ThanhNV177/Project/PycharmProjects/DjangoWeb/static/home/images/artical"
+    # Kết nối đến PostgreSQL
+    conn = psycopg2.connect(
+        dbname="djangodb",
+        user="postgres",
+        password="postgres",
+        host="localhost",
+        port="5433"
+    )
+
+    return combined_dict, image_folder, conn
 def convert_to_formatted_time(date_str):
     # Tách chuỗi theo dấu phẩy
     date_parts = date_str.split(", ")
@@ -92,7 +124,7 @@ def slugify(name):
     slug = slug.replace(' ', '-')
     return slug
 
-def getArtcalDataInfors(url,image_folder,catagoryId):
+def getArtcalDataInfors(url,catagoryId,image_folder):
     # Lấy danh sách các bài báo
     article_links = []
     soup = BeautifulSoup(requests.get(url).text, "html.parser")
@@ -105,7 +137,7 @@ def getArtcalDataInfors(url,image_folder,catagoryId):
     insertData = []
 
     i = 1
-    for article_url in article_links[1:]:
+    for article_url in article_links[0:5]:
         try:
             title, content, image_url, public_date = get_article_content(article_url)
             if image_url is None or content == 'No Content':
@@ -130,39 +162,39 @@ def getArtcalDataInfors(url,image_folder,catagoryId):
         except Exception as e:
             print(f'title:{title} imageUrl:{image_url} link:{article_url}')
             continue
-    return insertData
+    # Hàm sắp xếp insertData theo trường public_date giảm dần
+    return sorted(insertData, key=lambda x: x[3], reverse=True)
 
-def UpdateAritcleDataInfors(insertData,catagoryid):
-
-    # Kết nối đến PostgreSQL
-    conn = psycopg2.connect(
-        dbname="djangodb",
-        user="postgres",
-        password="postgres",
-        host="localhost",
-        port="5433"
-    )
+def UpdateArticleDataInfos(conn,insertData):
 
     # Tạo một đối tượng cursor để thực hiện các truy vấn SQL
     cur = conn.cursor()
 
     try:
-        # Xoá tất cả các bản ghi từ bảng
-        table_identifier = sql.Identifier("public", "home_artical")
-        condition = sql.SQL("catagory_id = {}").format(sql.Literal(catagoryid))  # Thay đổi giá trị điều kiện nếu cần
-
-        # DELETE dữ liệu cũ
-        delete_query = sql.SQL("DELETE FROM {} WHERE {}").format(table_identifier, condition)
-        cur.execute(delete_query)
-
-        # Create SQL query
+        # Sử dụng câu truy vấn INSERT ... ON CONFLICT để kiểm tra trùng lặp trên cột 'name' và 'slug'
         insert_query = sql.SQL("""
             INSERT INTO public.home_artical ("name", slug, special, publish_date, content, image, catagory_id, status, ordering)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (name, slug) DO NOTHING
         """)
 
         # Insert Article Datas
         cur.executemany(insert_query, insertData)
+
+        # Update special với bài báo mới nhất của mỗi catagory
+        update_query = sql.SQL("""
+                    UPDATE home_artical
+                    SET special = CASE WHEN home_artical.publish_date = max_dates.max_publish_date THEN True ELSE False END
+                    FROM (
+                        SELECT catagory_id, MAX(publish_date) AS max_publish_date
+                        FROM home_artical
+                        GROUP BY catagory_id
+                    ) AS max_dates
+                    WHERE home_artical.catagory_id = max_dates.catagory_id
+                """)
+
+        # Thực hiện truy vấn UPDATE
+        cur.execute(update_query)
         conn.commit()
 
     finally:
@@ -170,30 +202,11 @@ def UpdateAritcleDataInfors(insertData,catagoryid):
         cur.close()
         conn.close()
 
-
 if __name__ == "__main__":
 
-    urls = [
-            "https://vnexpress.net/the-thao",
-            "https://vnexpress.net/kinh-doanh",
-            "https://vnexpress.net/thoi-su/chinh-tri",
-            "https://vnexpress.net/khoa-hoc",
-            "https://vnexpress.net/the-gioi",
-            "https://vnexpress.net/giao-duc",
-            ]
-    categoryIds = [
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                   ]
-
-    # Thư mục để lưu trữ hình ảnh
-    image_folder = "/Users/ThanhNV177/Project/PycharmProjects/DjangoWeb/static/home/images/artical"
-    combined_dict = dict(zip(categoryIds, urls))
+    combined_dict, image_folder,conn = init()
+    insertData = []
     for categoryId, url in combined_dict.items():
-
-        insertData = getArtcalDataInfors(url,image_folder,categoryId)
-        UpdateAritcleDataInfors(insertData,categoryId)
+        insertData.extend(getArtcalDataInfors(url,categoryId,image_folder))
+    if len(insertData) > 0:
+        UpdateArticleDataInfos(conn,insertData)
