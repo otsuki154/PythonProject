@@ -15,10 +15,10 @@ import json
 def index(request):
 
     items_artical_special = Artical.objects.filter(special=True, status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("-publish_date")[:5]
-    items_catagory = Catagory.objects.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE , is_homepage = True, special=False).order_by("ordering")
+    items_catagory = Catagory.objects.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE , is_homepage = True).order_by("ordering")
 
     for catagory in items_catagory:
-        catagory.artical_filter = catagory.artical_set.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE , publish_date__lte = timezone.now()).order_by("-publish_date")[:APP_VALUE_ARTICAL_NUM_MAX_HOMEPAGE_DEFINE]
+        catagory.artical_filter = catagory.artical_set.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE, special=False , publish_date__lte = timezone.now()).order_by("-publish_date")[:APP_VALUE_ARTICAL_NUM_MAX_HOMEPAGE_DEFINE]
 
     return render(request, TABLE_PATH_FILE + 'index.html',{
         "title_page":"春秋-Trang chủ",
