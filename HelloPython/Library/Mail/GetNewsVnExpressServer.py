@@ -148,7 +148,7 @@ def getArtcalDataInfors(url,catagoryId,image_folder,numArticles):
                 print(f'title:{title} imageUrl:{image_url} link:{article_url}')
                 continue
             slug = slugify(title)
-            if i == 1:
+            if i == 1 and catagoryId in (3,5,7,8,9):
                 special = True
             else:
                 special = False
