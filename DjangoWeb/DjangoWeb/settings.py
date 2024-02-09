@@ -100,8 +100,8 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
-        # 'PORT': '5432', #ubuntu Server
-        'PORT': '5433', # #local
+        'PORT': '5432', #ubuntu Server
+        #'PORT': '5433', # #local
     }
 }
 
