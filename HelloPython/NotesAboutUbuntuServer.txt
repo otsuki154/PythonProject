@@ -40,7 +40,7 @@ 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
 image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"
 
 /usr/bin/python3 /home/thanh/code-server/config/PythonProject/HelloPython/Library/Mail/GetNewsVnExpressServer.py
-
+image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"
 crontab guru
 https://crontab.guru/#0_6,20_*_*_mon
 TZ=Asia/Tokyo

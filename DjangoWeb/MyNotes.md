@@ -197,8 +197,8 @@ active phía client: 10 người dùng => gửi yêu cầu => html, css, js => a
 - Cấu hình lại static folder
 - Nhớ reload lại app mỗi khi thay đổi bất cứ thứ gì
 # Deloy Project: Đẩy website Django lên server Ubuntu
-- Tham khảo tại: https://dev.to/tkirwa/deploying-django-project-on-an-ubuntu-server-32jb
-https://sleeksoft.in/deploy-django-website-in-ubuntu-server-using-nginx-gunicorn-and-wsgi-with-postgres-db/
+- Tham khảo tại: https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04
+
 1. Install postgresql
    - đặt lại mật khẩu cho user postgres là postgres
      > psql -U postgres -p 5432 -h localhost -d djangodb
@@ -207,17 +207,9 @@ https://sleeksoft.in/deploy-django-website-in-ubuntu-server-using-nginx-gunicorn
    > sudo apt install python3 python3-venv 
 3. Di chuyển đến folder dự án và tạo và kích hoạt môi trường ảo  
    cd code-server/config/PythonProject/DjangoWeb  
-   rm -r /home/thanh/code-server/config/PythonProject/DjangoWeb/DjangoWeb/settings.py  
    python3 -m venv venv  
    source venv/bin/activate  
 4. Tạo file requirements.txt có nội dung(chưa các thư viện cần cài đặt để chạy được dự án)  
-   Django  
-   gunicorn  
-   psycopg2-binary  
-   django-tinymce  
-   django_cleanup  
-   Pillow  
-
    - cài thư viện với lệnh
       pip install -r requirements.txt
 5. Collect Static Files
@@ -230,6 +222,71 @@ If your project serves static files using Django, collect them using the followi
     python manage.py runserver 192.168.0.228:8585 
 - Nếu bị lỗi thì thêm allow host và setting.py  
    ALLOWED_HOSTS = ['192.168.0.228', 'yourdomain.com']
+8. Test Gunicorn
+gunicorn --bind 0.0.0.0:8585 DjangoWeb.wsgi
+deactivate
+9. Creating systemd Socket and Service Files for Gunicorn
+- sudo nano /etc/systemd/system/gunicorn.socket
+Nội dung
+[Unit]
+Description=gunicorn socket
+
+[Socket]
+ListenStream=/run/gunicorn.sock
+
+[Install]
+WantedBy=sockets.target
+
+- sudo nano /etc/systemd/system/gunicorn.service
+Nội dung
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=thanh
+Group=www-data
+WorkingDirectory=/home/thanh/code-server/config/PythonProject/DjangoWeb
+ExecStart=/home/thanh/code-server/config/PythonProject/DjangoWeb/venv/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/run/gunicorn.sock \
+          DjangoWeb.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl start gunicorn.socket
+sudo systemctl enable gunicorn.socket
+sudo systemctl status gunicorn.socket
+file /run/gunicorn.sock
+sudo systemctl status gunicorn
+curl --unix-socket /run/gunicorn.sock localhost
+sudo systemctl status gunicorn
+10. Configure Nginx to Proxy Pass to Gunicorn
+sudo nano /etc/nginx/sites-available/DjangoWeb
+Nội dung
+server {
+    listen 80;
+    server_name news.nvthanh.online;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/thanh/code-server/config/PythonProject/DjangoWeb;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+}
+
+sudo ln -s /etc/nginx/sites-available/DjangoWeb /etc/nginx/sites-enabled
+sudo nginx -t
+sudo ufw allow 'Nginx Full'
+
 8. Git command  
  git pull https://github.com/otsuki154/PythonProject.git master  
  git status   
@@ -257,43 +314,3 @@ python manage.py runserver 192.168.0.228:8585
 # nhớ thêm unique cho table
 ALTER TABLE public.home_artical
 ADD CONSTRAINT unique_name_slug_constraint UNIQUE (name, slug);
-
-
-
-sudo apt update
-sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx curl
-
-myprojectdir ~ code-server/config/PythonProject/DjangoWeb 
-myprojectdir/myproject ~ code-server/config/PythonProject/DjangoWeb/DjangoWeb
-
-cd code-server/config/PythonProject/DjangoWeb 
-gunicorn --bind 0.0.0.0:8585 DjangoWeb.wsgi
-
-
-[Unit]
-Description=gunicorn daemon
-Requires=gunicorn.socket
-After=network.target
-
-[Service]
-User=sammy
-Group=www-data
-WorkingDirectory=/home/thanh/code-server/config/PythonProject/DjangoWeb
-ExecStart=/home/thanh/code-server/config/PythonProject/DjangoWeb/venv/bin/gunicorn \
-          --access-logfile - \
-          --workers 3 \
-          --bind unix:/run/gunicorn.sock \
-          myproject.wsgi:application
-
-[Install]
-WantedBy=multi-user.target
-
-
-
-# Chua lam
-STATIC_URL = '/static/'
-import os
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-
-
-python manage.py runserver 0.0.0.0:8585 

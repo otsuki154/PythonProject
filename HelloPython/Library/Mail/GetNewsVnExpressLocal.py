@@ -41,8 +41,8 @@ def init():
         host="localhost",
         port="5433"
     )
-
-    return combined_dict, image_folder, conn
+    numArticles = 10
+    return combined_dict, image_folder, conn, numArticles
 def convert_to_formatted_time(date_str):
     # Tách chuỗi theo dấu phẩy
     date_parts = date_str.split(", ")
@@ -128,7 +128,7 @@ def slugify(name):
     slug = slug.replace(' ', '-')
     return slug
 
-def getArtcalDataInfors(url,catagoryId,image_folder):
+def getArtcalDataInfors(url,catagoryId,image_folder,numArticles):
     # Lấy danh sách các bài báo
     article_links = []
     soup = BeautifulSoup(requests.get(url).text, "html.parser")
@@ -141,7 +141,7 @@ def getArtcalDataInfors(url,catagoryId,image_folder):
     insertData = []
 
     i = 1
-    for article_url in article_links[0:]:
+    for article_url in article_links[:numArticles]:
         try:
             title, content, image_url, public_date = get_article_content(article_url)
             if image_url is None or content == 'No Content':
@@ -208,9 +208,9 @@ def UpdateArticleDataInfos(conn,insertData):
 
 if __name__ == "__main__":
 
-    combined_dict, image_folder,conn = init()
+    combined_dict, image_folder,conn, numArticles = init()
     insertData = []
     for categoryId, url in combined_dict.items():
-        insertData.extend(getArtcalDataInfors(url,categoryId,image_folder))
+        insertData.extend(getArtcalDataInfors(url,categoryId,image_folder,numArticles))
     if len(insertData) > 0:
         UpdateArticleDataInfos(conn,insertData)
