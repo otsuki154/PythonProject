@@ -213,8 +213,21 @@ active phía client: 10 người dùng => gửi yêu cầu => html, css, js => a
    - cài thư viện với lệnh
       pip install -r requirements.txt
 5. Collect Static Files
-If your project serves static files using Django, collect them using the following command
-    python manage.py collectstatic
+   -Sửa file setting.py với nội dung tương ứng bên dưới  
+```
+STATIC_URL = '/static/'
+
+#STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, 'static'),
+#)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# Base url to serve media files
+MEDIA_URL = '/media/' #quy định các file media(image, audio, video...) bắt đầu url bằng tiền tố này
+# Path where media is stored
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+```
+   - Chạy lệnh để cập nhật static
+    python3 manage.py collectstatic
 6. Migrate Database
 - Apply initial database migrations
     python manage.py migrate
@@ -226,8 +239,9 @@ If your project serves static files using Django, collect them using the followi
 gunicorn --bind 0.0.0.0:8585 DjangoWeb.wsgi
 deactivate
 9. Creating systemd Socket and Service Files for Gunicorn
-- sudo nano /etc/systemd/system/gunicorn.socket
+- sudo nano /etc/systemd/system/gunicorn.socket  
 Nội dung
+```
 [Unit]
 Description=gunicorn socket
 
@@ -236,9 +250,10 @@ ListenStream=/run/gunicorn.sock
 
 [Install]
 WantedBy=sockets.target
-
+```
 - sudo nano /etc/systemd/system/gunicorn.service
-Nội dung
+Nội dung  
+```
 [Unit]
 Description=gunicorn daemon
 Requires=gunicorn.socket
@@ -256,7 +271,7 @@ ExecStart=/home/thanh/code-server/config/PythonProject/DjangoWeb/venv/bin/gunico
 
 [Install]
 WantedBy=multi-user.target
-
+```
 
 sudo systemctl start gunicorn.socket
 sudo systemctl enable gunicorn.socket
@@ -267,7 +282,8 @@ curl --unix-socket /run/gunicorn.sock localhost
 sudo systemctl status gunicorn
 10. Configure Nginx to Proxy Pass to Gunicorn
 sudo nano /etc/nginx/sites-available/DjangoWeb
-Nội dung
+Nội dung  
+```
 server {
     listen 80;
     server_name news.nvthanh.online;
@@ -282,7 +298,7 @@ server {
         proxy_pass http://unix:/run/gunicorn.sock;
     }
 }
-
+```
 sudo ln -s /etc/nginx/sites-available/DjangoWeb /etc/nginx/sites-enabled
 sudo nginx -t
 sudo systemctl restart nginx
@@ -311,7 +327,7 @@ psql -U postgres -p 5432 -h localhost -d djangodb
 
 cd code-server/config/PythonProject/DjangoWeb 
 source venv/bin/activate 
-python manage.py runserver 192.168.0.228:8585 
+python3 manage.py runserver 192.168.0.228:8585 
 
 
 # nhớ thêm unique cho table
