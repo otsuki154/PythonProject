@@ -198,6 +198,7 @@ active phía client: 10 người dùng => gửi yêu cầu => html, css, js => a
 - Nhớ reload lại app mỗi khi thay đổi bất cứ thứ gì
 # Deloy Project: Đẩy website Django lên server Ubuntu
 - Tham khảo tại: https://dev.to/tkirwa/deploying-django-project-on-an-ubuntu-server-32jb
+https://sleeksoft.in/deploy-django-website-in-ubuntu-server-using-nginx-gunicorn-and-wsgi-with-postgres-db/
 1. Install postgresql
    - đặt lại mật khẩu cho user postgres là postgres
      > psql -U postgres -p 5432 -h localhost -d djangodb
@@ -256,3 +257,43 @@ python manage.py runserver 192.168.0.228:8585
 # nhớ thêm unique cho table
 ALTER TABLE public.home_artical
 ADD CONSTRAINT unique_name_slug_constraint UNIQUE (name, slug);
+
+
+
+sudo apt update
+sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx curl
+
+myprojectdir ~ code-server/config/PythonProject/DjangoWeb 
+myprojectdir/myproject ~ code-server/config/PythonProject/DjangoWeb/DjangoWeb
+
+cd code-server/config/PythonProject/DjangoWeb 
+gunicorn --bind 0.0.0.0:8585 DjangoWeb.wsgi
+
+
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=sammy
+Group=www-data
+WorkingDirectory=/home/thanh/code-server/config/PythonProject/DjangoWeb
+ExecStart=/home/thanh/code-server/config/PythonProject/DjangoWeb/venv/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/run/gunicorn.sock \
+          myproject.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+# Chua lam
+STATIC_URL = '/static/'
+import os
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+
+python manage.py runserver 0.0.0.0:8585 
