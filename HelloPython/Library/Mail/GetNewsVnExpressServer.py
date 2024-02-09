@@ -32,7 +32,7 @@ def init():
                    ]
     combined_dict = dict(zip(categoryIds, urls))
     # Thư mục để lưu trữ hình ảnh
-    image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/staticfiles/home/images/artical"
+    image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"
     # Kết nối đến PostgreSQL
     conn = psycopg2.connect(
         dbname="djangodb",
@@ -41,7 +41,7 @@ def init():
         host="localhost",
         port="5432"
     )
-    numArticles = 10
+    numArticles = 5
     return combined_dict, image_folder, conn, numArticles
 def convert_to_formatted_time(date_str):
     # Tách chuỗi theo dấu phẩy
