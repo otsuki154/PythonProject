@@ -285,9 +285,11 @@ server {
 
 sudo ln -s /etc/nginx/sites-available/DjangoWeb /etc/nginx/sites-enabled
 sudo nginx -t
+sudo systemctl restart nginx
+
 sudo ufw allow 'Nginx Full'
 
-8. Git command  
+11. Git command  
  git pull https://github.com/otsuki154/PythonProject.git master  
  git status   
  git add .  
@@ -295,6 +297,7 @@ sudo ufw allow 'Nginx Full'
  git push origin master 
 - Password khi push trên Ubuntu server(nếu không được thì lên github gen lại key)  
 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
+
 # Các câu lệnh thường dùng
 - python3 manage.py runserver
 - python3 manage.py makemigrations home
