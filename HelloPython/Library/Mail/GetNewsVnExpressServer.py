@@ -32,7 +32,7 @@ def init():
                    ]
     combined_dict = dict(zip(categoryIds, urls))
     # Thư mục để lưu trữ hình ảnh
-    image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"
+    image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/staticfiles/home/images/artical"
     # Kết nối đến PostgreSQL
     conn = psycopg2.connect(
         dbname="djangodb",
