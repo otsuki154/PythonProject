@@ -6,7 +6,8 @@ from bs4 import BeautifulSoup
 from psycopg2 import sql
 from unidecode import unidecode
 from datetime import datetime
-
+from PIL import Image
+from io import BytesIO
 def init():
     #Link các mục bài báo
     urls = [
@@ -103,17 +104,31 @@ def get_article_content(url):
         print(f"Failed to fetch content. Status code: {response.status_code}")
     return None
 
-def download_image(image_folder,image_url, article_title):
+def download_image(image_folder, image_url, article_title, target_size_kb=80):
     # Tạo thư mục nếu chưa tồn tại
     os.makedirs(image_folder, exist_ok=True)
     if image_url:
         # Tạo đường dẫn đầy đủ cho hình ảnh
         full_image_path = os.path.join(image_folder, f"{article_title}.jpg")
 
-        # Tải hình ảnh và lưu vào thư mục images
-        image_data = requests.get(image_url).content
-        with open(full_image_path, 'wb') as image_file:
-            image_file.write(image_data)
+        # Tải hình ảnh và giảm kích thước về 80KB
+        response = requests.get(image_url)
+        if response.status_code == 200:
+            image = Image.open(BytesIO(response.content))
+
+            # Lấy tỉ lệ giảm kích thước để đạt được dung lượng mong muốn
+            target_size_bytes = target_size_kb * 1024
+            current_size_bytes = len(response.content)
+            if current_size_bytes > target_size_bytes:
+                # Resize ảnh
+                new_width = 800
+                new_height = int((image.height/image.width) * new_width)
+                resized_image = image.resize((new_width, new_height))
+            else:
+                resized_image = image
+
+            # Lưu lại ảnh đã được resize
+            resized_image.save(full_image_path, 'JPEG', quality=85)
 
 def slugify(name):
     # Chuyển đổi chuỗi thành chữ thường và loại bỏ dấu
