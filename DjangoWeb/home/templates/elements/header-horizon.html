@@ -45,7 +45,7 @@
                                         <li><a {% if item_catagory.name == item.name  or item_artical.catagory.name == item.name %} class="text-primary" {% endif %} href="{{ item.get_absolute_url }}">{{item.name}}</a></li>
                                     {% endfor %}
                                     <li><a href="#">Tin Tổng Hợp</a>
-                                        <ul class="submenu">
+                                        <ul class="submenu ">
                                             {% for item in items_feed_sidebar_menu %}
                                                 <li><a {% if item_feed.name == item.name  or item_artical.catagory.name == item.name %} class="text-primary" {% endif %} href="{{ item.get_absolute_url }}" >{{ item.name }}</a></li>
                                             {% endfor %}

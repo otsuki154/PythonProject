@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-jp6juhssco7w(q)#8!(h3&9j1(*o!_+a8c93)^d3d7o(rvd2q$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.0.228', 'test.nvthanh.online']
+ALLOWED_HOSTS = ['127.0.0.1','192.168.0.173','192.168.0.228', 'test.nvthanh.online']
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
      'tinymce',
      'django_cleanup.apps.CleanupConfig', # should be placed after your apps
      'django.contrib.humanize', # để filter số
+     'django_user_agents',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +75,7 @@ TEMPLATES = [
                 'home.my_context.items_feed_sidebar_trending', # lấy context được lấy ở my_context
                 'home.my_context.items_price_sidebar_coin', # lấy context được lấy ở my_context
                 'home.my_context.items_price_sidebar_gold', # lấy context được lấy ở my_context
+                'home.my_context.isMobileUser', # lấy context được lấy ở my_context
             ],
         },
     },

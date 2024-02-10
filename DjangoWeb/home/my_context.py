@@ -5,6 +5,9 @@ from .helpers import *
 from django.db.models import Count
 import requests
 import json
+from django_user_agents.utils import get_user_agent
+
+
 
 def items_catagory_sidebar_menu(request):
     items_catagory_sidebar_menu = Catagory.objects.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE ).order_by("ordering").annotate(num_artical=Count('artical'))[:APP_VALUE_CATAGORY_NUM_MENU_SIDEBAR_DEFINE]
@@ -78,4 +81,11 @@ def items_price_sidebar_gold(request):
     
     return {
         "items_price_sidebar_gold":items_price_sidebar_gold,
+            }
+
+def isMobileUser(request):
+    user_agent = get_user_agent(request)
+
+    return {
+        "isMobileUser":user_agent.is_mobile,
             }

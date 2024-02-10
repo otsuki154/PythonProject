@@ -7,3 +7,4 @@ Pillow
 feedparser
 BeautifulSoup4
 requests
+django-user-agents

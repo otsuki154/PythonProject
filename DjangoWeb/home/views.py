@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import feedparser
 import ssl
 import json
-
+from django_user_agents.utils import get_user_agent
 # Create your views here.
 
 def index(request):
@@ -19,6 +19,7 @@ def index(request):
 
     for catagory in items_catagory:
         catagory.artical_filter = catagory.artical_set.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE, special=False , publish_date__lte = timezone.now()).order_by("-publish_date")[:APP_VALUE_ARTICAL_NUM_MAX_HOMEPAGE_DEFINE]
+    user_agent = get_user_agent(request)
 
     return render(request, TABLE_PATH_FILE + 'index.html',{
         "title_page":"春秋-Trang chủ",

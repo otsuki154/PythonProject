@@ -232,7 +232,7 @@ MEDIA_URL = '/media/' #quy định các file media(image, audio, video...) bắt
 - Apply initial database migrations
     python manage.py migrate
 7. Start your Django development server to test your application(hãy đảm bảo môi trường ảo đã được kích hoạt)  
-    python manage.py runserver 192.168.0.228:8585 
+    python3 manage.py runserver 192.168.0.228:8585 
 - Nếu bị lỗi thì thêm allow host và setting.py  
    ALLOWED_HOSTS = ['192.168.0.228', 'yourdomain.com']
 8. Test Gunicorn
@@ -273,13 +273,19 @@ ExecStart=/home/thanh/code-server/config/PythonProject/DjangoWeb/venv/bin/gunico
 WantedBy=multi-user.target
 ```
 
-sudo systemctl start gunicorn.socket
+sudo systemctl restart gunicorn.socket
 sudo systemctl enable gunicorn.socket
 sudo systemctl status gunicorn.socket
 file /run/gunicorn.sock
 sudo systemctl status gunicorn
 curl --unix-socket /run/gunicorn.sock localhost
 sudo systemctl status gunicorn
+
+
+- Khi update code thi restart lai gunicorn va Nginx
+pkill gunicorn
+gunicorn DjangoWeb.wsgi:application
+
 10. Configure Nginx to Proxy Pass to Gunicorn
 sudo nano /etc/nginx/sites-available/DjangoWeb
 Nội dung  
