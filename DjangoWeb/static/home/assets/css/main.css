@@ -5839,7 +5839,11 @@ hr {
 /* line 1080, ../../SAIFUL/Running_project/248. Magazine & News/assets/scss/_blog_page.scss */
 .single-post-area .blog_details p {
   margin-bottom: 20px;
-  font-size: 15px;
+  font-size: 17px;
+  color:rgb(12, 11, 11);
+  font-style:italic;
+  font-family:'Courier New';
+  /* font-family:"Barlow",sans-serif;  */
 }
 
 /* line 1090, ../../SAIFUL/Running_project/248. Magazine & News/assets/scss/_blog_page.scss */
@@ -8083,3 +8087,11 @@ del {
   opacity: 0;
   z-index: -1;
 }
+
+/* .pCustom {
+  color:rgb(12, 11, 11);
+  font-size:17px; 
+  font-style:italic;
+  font-family:'Courier New';
+  font-family:"Barlow",sans-serif; 
+} */
