@@ -12,14 +12,14 @@ from .catagory import Catagory
 
 class Artical(models.Model):
 
-    name = models.CharField(unique=True, max_length=100)
-    slug = models.SlugField(unique=True, max_length=100)
+    name = models.CharField(unique=True, max_length=500)
+    slug = models.SlugField(unique=True, max_length=500)
     status = models.CharField(max_length=10,choices=APP_VALUE_STATUS_CHOICE, default=APP_VALUE_STATUS_DEFINE)
     ordering = models.IntegerField(default=0)
     special = CustomBooleanField()
     publish_date = models.DateTimeField()
     content = HTMLField()
-    image = models.ImageField(upload_to=get_file_path,null=True,blank=True,verbose_name=(u'Contact list'))
+    image = models.ImageField(upload_to=get_file_path,max_length=500,null=True,blank=True,verbose_name=(u'Contact list'))
     catagory = models.ForeignKey(Catagory, on_delete=models.CASCADE)
 
     class Meta:
