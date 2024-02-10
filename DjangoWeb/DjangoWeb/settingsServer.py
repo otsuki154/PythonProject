@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-jp6juhssco7w(q)#8!(h3&9j1(*o!_+a8c93)^d3d7o(rvd2q$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.0.228', 'test.nvthanh.online']
+ALLOWED_HOSTS = ['127.0.0.1','192.168.0.228', 'news.nvthanh.online','bao.nvthanh.online']
 
 
 # Application definition
@@ -74,6 +74,7 @@ TEMPLATES = [
                 'home.my_context.items_feed_sidebar_trending', # lấy context được lấy ở my_context
                 'home.my_context.items_price_sidebar_coin', # lấy context được lấy ở my_context
                 'home.my_context.items_price_sidebar_gold', # lấy context được lấy ở my_context
+                'home.my_context.isMobileUser', # lấy context được lấy ở my_context
             ],
         },
     },
@@ -145,11 +146,11 @@ STATIC_URL = '/static/'
 #STATICFILES_DIRS = (
 #    os.path.join(BASE_DIR, 'static'),
 #)
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Base url to serve media files
 MEDIA_URL = '/media/' #quy định các file media(image, audio, video...) bắt đầu url bằng tiền tố này
 # Path where media is stored
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
