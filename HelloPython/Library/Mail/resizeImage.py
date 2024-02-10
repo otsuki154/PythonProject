@@ -1,7 +1,7 @@
 from PIL import Image
 import os
 
-def should_resize(input_path, max_size_kb=150):
+def should_resize(input_path, max_size_kb=100):
     size_kb = os.path.getsize(input_path) / 1024
     return size_kb > max_size_kb
 
