@@ -1,6 +1,6 @@
 {% extends "layout-post.html" %}
 {% load static %}
-{% block content %}
+{% block post_content %}
 
 <div class="single-post">
     <div class="feature-img">
@@ -11,12 +11,13 @@
     <div class="blog_details">
         <h2>{{item_artical.name}}</h2>
         <ul class="blog-info-link mt-3 mb-4">
-            <li><a href="#"><i class="fa fa-user"></i> Admin</a></li>
+            <li><a href="#"><i class="fa fa-user"></i> Xuân Thu</a></li>
             <li><a href="#"><i class="fa fa-calendar"></i> {{item_artical.publish_date | date:"M d Y"}}</a></li>
         </ul>
         {{item_artical.content | safe}}
     </div>
 </div>
+
 <div class="navigation-top">
     <div class="d-sm-flex justify-content-between text-center">
         <div class="col-sm-4 text-center my-2 my-sm-0">
@@ -46,12 +47,11 @@
                         </div>
                     </div>
                 {% endfor %}
-            </div>
-
         </div>
     </div>
+    
+</div> 
 
-</div>
 <div class="blog-author">
     <div class="media align-items-center">
         <img src="{{item_artical.image.url}}" alt="">
