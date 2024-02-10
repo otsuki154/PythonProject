@@ -36,7 +36,7 @@ pass:@154thienduong
 31B6-47FB
 
 Chạy code python
-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
+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
 image_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"
 
 /usr/bin/python3 /home/thanh/code-server/config/PythonProject/HelloPython/Library/Mail/GetNewsVnExpressServer.py

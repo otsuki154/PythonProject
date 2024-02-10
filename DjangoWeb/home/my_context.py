@@ -14,6 +14,7 @@ def items_catagory_sidebar_menu(request):
     return {
         "items_catagory_sidebar_menu":items_catagory_sidebar_menu,
             "logo_image":APP_VALUE_LOGO_IMG_DEFINE,
+            "small_logo_image":APP_VALUE_SMALL_LOGO_IMG_DEFINE,
             "img_src":APP_VALUE_DEFAULT_IMG_DEFINE
             }
 
@@ -85,7 +86,7 @@ def items_price_sidebar_gold(request):
 
 def isMobileUser(request):
     user_agent = get_user_agent(request)
-
+    print(f'isMobileUser {user_agent.is_mobile}')
     return {
         "isMobileUser":user_agent.is_mobile,
             }
