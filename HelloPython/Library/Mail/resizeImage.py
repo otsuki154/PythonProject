@@ -5,27 +5,26 @@ def should_resize(input_path, max_size_kb=150):
     size_kb = os.path.getsize(input_path) / 1024
     return size_kb > max_size_kb
 
-def resize_and_save(input_path, output_folder, target_size_kb=150, factor=1.0):
+def resize_and_save(input_path, output_folder, target_size_kb=150, quality=85):
     if should_resize(input_path, target_size_kb):
         image = Image.open(input_path)
-
-        # Chuyển đổi ảnh sang chế độ RGB
         rgb_image = image.convert('RGB')
+
+        # Kích thước mới để giữ dung lượng dưới ngưỡng target_size_kb
+        new_size_kb = target_size_kb * 1024
+        factor = (new_size_kb / os.path.getsize(input_path)) ** 0.5
 
         width, height = rgb_image.size
         new_width = int(width * factor)
         new_height = int(height * factor)
 
-        # Resize ảnh
         resized_image = rgb_image.resize((new_width, new_height))
-
-        # Lưu lại vào cùng một folder với tên file mới
         output_path = os.path.join(output_folder, os.path.basename(input_path))
-        resized_image.save(output_path, quality=85)
+        resized_image.save(output_path, quality=quality)
 
 if __name__ == "__main__":
     input_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"
-    output_folder = input_folder
+    output_folder = "/home/thanh/code-server/config/PythonProject/DjangoWeb/static/home/images/artical"
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
