@@ -22,15 +22,10 @@
                     <div class="row">
 
                         {% if items_artical|length > 0 %}
-
-                            {% if item_catagory.layout == 'list'%}
-
-                                {% include "pages/category/list.html" %}
-
+                            {% if item.layout == 'grid' or isMobileUser %}
+                                {% include "pages/category/grid.html" %}
                             {% else %}
-
-                            {% include "pages/category/grid.html" %}
-
+                                {% include "pages/category/list.html" %}
                             {% endif %}
                         {% else %}
                                         <p class ="col-12 ml-12">Chưa có bài viết nào...</p>
