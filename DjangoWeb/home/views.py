@@ -22,7 +22,7 @@ def index(request):
     user_agent = get_user_agent(request)
 
     return render(request, TABLE_PATH_FILE + 'index.html',{
-        "title_page":"春秋-Trang chủ",
+        "title_page":"Xuân Thu-Trang chủ",
         "items_artical_special":items_artical_special,
         "items_catagory":items_catagory,
     })

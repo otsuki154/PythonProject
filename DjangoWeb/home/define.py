@@ -34,7 +34,7 @@ TABLE_PATH_FILE = "pages/"
 
 ADMIN_SRC_JS = ('admin/js/slugify.min.js','admin/js/jquery-3.6.0.min.js','admin/js/general.js') #tao auto slug bang tieng Viet
 ADMIN_SRC_CSS = {'all':('admin/css/custome.css',)} #tao custome css cho các BooleanFiled
-ADMIN_SITE_NAME = "春秋 Admin site"
+ADMIN_SITE_NAME = "Xuân Thu Admin site"
 
 APP_VALUE_LAYOUT_CHOICE = (
     ('list','List'),
