@@ -13,24 +13,24 @@ def init():
     #Link các mục bài báo
     urls = [
             "https://vnexpress.net/the-thao",
-            # "https://vnexpress.net/kinh-doanh",
-            # "https://vnexpress.net/thoi-su/chinh-tri",
-            # "https://vnexpress.net/khoa-hoc",
-            # "https://vnexpress.net/the-gioi",
-            # "https://vnexpress.net/giao-duc",
-            # "https://vnexpress.net/giai-tri",
-            # "https://vnexpress.net/suc-khoe",
+            "https://vnexpress.net/kinh-doanh",
+            "https://vnexpress.net/thoi-su/chinh-tri",
+            "https://vnexpress.net/khoa-hoc",
+            "https://vnexpress.net/the-gioi",
+            "https://vnexpress.net/giao-duc",
+            "https://vnexpress.net/giai-tri",
+            "https://vnexpress.net/suc-khoe",
             ]
     #categoryId tương ứng với các mục bài báo
     categoryIds = [
                     3,
-                    # 4,
-                    # 5,
-                    # 6,
-                    # 7,
-                    # 8,
-                    # 9,
-                    # 10,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
                    ]
     combined_dict = dict(zip(categoryIds, urls))
     # Thư mục để lưu trữ hình ảnh
@@ -41,7 +41,7 @@ def init():
         user="postgres",
         password="postgres",
         host="localhost",
-        port="5433"
+        port="5432"
     )
     numArticles = 10
     return combined_dict, image_folder, conn, numArticles
