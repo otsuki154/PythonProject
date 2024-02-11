@@ -111,7 +111,7 @@ def download_image(image_folder, image_url, article_title, target_size_kb=80):
         # Tạo đường dẫn đầy đủ cho hình ảnh
         full_image_path = os.path.join(image_folder, f"{article_title}.jpg")
 
-        # Tải hình ảnh và giảm kích thước về 80KB
+        # Tải hình ảnh
         response = requests.get(image_url)
         if response.status_code == 200:
             image = Image.open(BytesIO(response.content))
@@ -122,13 +122,13 @@ def download_image(image_folder, image_url, article_title, target_size_kb=80):
             if current_size_bytes > target_size_bytes:
                 # Resize ảnh
                 new_width = 800
-                new_height = int((image.height/image.width) * new_width)
+                new_height = int((image.height / image.width) * new_width)
                 resized_image = image.resize((new_width, new_height))
             else:
                 resized_image = image
 
-            # Lưu lại ảnh đã được resize
-            resized_image.save(full_image_path, 'JPEG', quality=85)
+            # Chuyển đổi và lưu lại ảnh đã được resize dưới định dạng JPEG
+            resized_image.convert("RGB").save(full_image_path, 'JPEG', quality=85)
 
 def slugify(name):
     # Chuyển đổi chuỗi thành chữ thường và loại bỏ dấu
