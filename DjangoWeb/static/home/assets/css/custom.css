@@ -45,6 +45,9 @@ aside > ul > li > a > p:hover , .header-info-left > ul > li:nth-child(2) > a:hov
 img {
     object-fit: cover !important;
 }
+.notfound {
+    font-family: 'Courier New', Courier, monospace;
+}
 
 
 
