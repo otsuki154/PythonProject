@@ -43,7 +43,7 @@ def init():
         host="localhost",
         port="5432"
     )
-    numArticles = 10
+    numArticles = 5
     return combined_dict, image_folder, conn, numArticles
 def convert_to_formatted_time(date_str):
     # Tách chuỗi theo dấu phẩy
