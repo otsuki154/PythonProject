@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'home.middleware.Custom404Middleware', # lấy middleware được lấy ở middleware.py
 ]
 
 ROOT_URLCONF = 'DjangoWeb.urls'
