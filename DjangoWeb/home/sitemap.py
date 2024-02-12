@@ -17,6 +17,7 @@ class StaticSitemap(Sitemap):
 class ArticleSitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.8
+    protocol = 'https'
     articles = Artical.objects.filter(status=APP_VALUE_STATUS_ACTIVE_DEFINE).order_by('-id')
     def items(self):
         return self.articles
