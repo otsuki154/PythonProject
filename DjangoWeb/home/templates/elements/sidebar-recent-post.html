@@ -3,7 +3,7 @@
     <h3 class="widget_title">Bài Viết Gần Đây</h3>
     {% for item in items_feed_sidebar_recent %}
         <div class="media post_item">
-            <img src="{{ item.image.url }}" alt="post"
+            <img src="{{ item.image.url }}" alt="{{item.name}}"
                 style="width: 30%;">
             <div class="media-body">
                 <a href="{{ item.get_absolute_url }}">

@@ -5,7 +5,7 @@
 <div class="single-post">
     <div class="feature-img">
         <img class="img-fluid"
-            src="{{item_artical.image.url}}" alt=""
+            src="{{item_artical.image.url}}" alt="{{item_artical.name}}"
             style="min-width: 100%;">
     </div>
     <div class="blog_details">
@@ -38,7 +38,7 @@
                 {% for item in items_artical_related %}
                     <div {% if isMobileUser %} class="post-item col-12" {% else %} class="post-item col-6"{% endif %}>
                         <img src="{{ item.image.url }}"
-                            alt="post" style="width: 30%;">
+                            alt="{{item.name}}" style="width: 30%;">
                         <div class="post-body">
                             <a href="{{ item.get_absolute_url }}">
                                 <h4>{{item.name}}</h4>

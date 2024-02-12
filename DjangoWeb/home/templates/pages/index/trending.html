@@ -12,7 +12,7 @@
                                     <div class="trending-top mb-30">
                                         <div class="trend-top-img">
                                             <img src="{{ item.image.url }}"
-                                                alt="" style="height: 520px; object-fit: cover;">
+                                                alt="{{item.name}}" style="height: 520px; object-fit: cover;">
                                             <div class="trend-top-cap">
                                                 <span class="bgb" data-animation="fadeInUp" data-delay=".2s"
                                                     data-duration="1000ms">{{item.catagory}}</span>
@@ -38,7 +38,7 @@
                                     <div class="trending-top mb-30">
                                         <div class="trend-top-img">
                                             <img src="{{ item.image.url }}"
-                                                alt="" style="height: 245px;">
+                                                alt="{{item.name}}" style="height: 245px;">
                                             <div class="trend-top-cap trend-top-cap2">
                                                 <span class="bgb">{{item.catagory}}</span>
                                                 <h2><a href="{{ item.get_absolute_url }}">{{item.name}}</a></h2>
