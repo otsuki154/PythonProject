@@ -235,7 +235,7 @@ def getArtcalDataInfors(url,catagoryId,image_folder,numArticles):
             else:
                 special = False
             # public_date = get_current_time()
-            image = "home/images/artical/" + slug + ".jpg"
+            image = "home/images/artical/" + slug + ".webp"
             status = "published"
             ordering = i
             i += 1
