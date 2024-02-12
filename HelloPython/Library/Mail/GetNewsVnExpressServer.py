@@ -143,7 +143,7 @@ def download_image2(image_folder, image_url, article_title, target_size_kb=80):
             # Lưu lại ảnh đã được resize
             resized_image.save(full_image_path, 'JPEG', quality=85)
 
-def download_image(image_folder, image_url, article_title, target_size_kb=80):
+def download_image3(image_folder, image_url, article_title, target_size_kb=80):
     # Tạo thư mục nếu chưa tồn tại
     os.makedirs(image_folder, exist_ok=True)
     if image_url:
@@ -168,6 +168,34 @@ def download_image(image_folder, image_url, article_title, target_size_kb=80):
 
             # Chuyển đổi và lưu lại ảnh đã được resize dưới định dạng JPEG
             resized_image.convert("RGB").save(full_image_path, 'JPEG', quality=85)
+
+
+def download_image(image_folder, image_url, article_title, target_size_kb=80):
+    # Tạo thư mục nếu chưa tồn tại
+    os.makedirs(image_folder, exist_ok=True)
+    if image_url:
+        # Tạo đường dẫn đầy đủ cho hình ảnh
+        full_image_path = os.path.join(image_folder, f"{article_title}.webp")
+
+        # Tải hình ảnh
+        response = requests.get(image_url)
+        if response.status_code == 200:
+            image = Image.open(BytesIO(response.content))
+
+            # Lấy tỉ lệ giảm kích thước để đạt được dung lượng mong muốn
+            target_size_bytes = target_size_kb * 1024
+            current_size_bytes = len(response.content)
+            if current_size_bytes > target_size_bytes:
+                # Resize ảnh
+                new_width = 800
+                new_height = int((image.height / image.width) * new_width)
+                resized_image = image.resize((new_width, new_height))
+            else:
+                resized_image = image
+
+            # Chuyển đổi và lưu lại ảnh đã được resize dưới định dạng WebP
+            resized_image.save(full_image_path, 'WEBP', quality=85)
+
 
 def slugify(name):
     # Chuyển đổi chuỗi thành chữ thường và loại bỏ dấu
