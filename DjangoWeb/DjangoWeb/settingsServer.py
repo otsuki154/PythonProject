@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-jp6juhssco7w(q)#8!(h3&9j1(*o!_+a8c93)^d3d7o(rvd2q$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.0.228', 'news.nvthanh.online','bao.nvthanh.online']
+ALLOWED_HOSTS = ['127.0.0.1','192.168.0.228', 'news.nvthanh.online','bao.nvthanh.online','tintuc.nvthanh.online']
 
 
 # Application definition
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'home.apps.HomeConfig',
      'tinymce',
      'django_cleanup.apps.CleanupConfig', # should be placed after your apps
@@ -52,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'home.middleware.Custom404Middleware', # lấy middleware được lấy ở middleware.py
 ]
 
 ROOT_URLCONF = 'DjangoWeb.urls'
@@ -156,3 +159,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SITE_ID = 1
