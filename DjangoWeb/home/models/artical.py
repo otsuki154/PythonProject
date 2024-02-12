@@ -23,7 +23,10 @@ class Artical(models.Model):
     catagory = models.ForeignKey(Catagory, on_delete=models.CASCADE)
 
     class Meta:
-            verbose_name_plural = TABLE_ARTICAL_SHOW #Đặt lại tên hiển thị
+        verbose_name_plural = TABLE_ARTICAL_SHOW #Đặt lại tên hiển thị
+        constraints = [
+        models.UniqueConstraint(fields=['name', 'slug'], name='unique_name_slug_constraint')
+        ]
 
     def __str__(self) -> str:
         return self.name
