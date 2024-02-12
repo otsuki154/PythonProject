@@ -16,11 +16,11 @@
             </div> {% endcomment %}
 
             <div class="row">
-                <div class="col-md-3 col-12 whates-img">
+                <div class="col-md-5 col-12 whates-img">
                     <img src="{{ item.image.url }}"
                         alt="{{item.name}}" style="width: 100%; object-fit: cover;">
                 </div>
-                <div class="col-md-9 col-12 whates-caption whates-caption2">
+                <div class="col-md-7 col-12 whates-caption whates-caption2">
                     <h4 style="font-size: 22px;"><a
                             href="{{ item.get_absolute_url }}">{{item.name}}</a></h4>
                         <span>{{item.publish_date | date:"M d Y"}}</span>
