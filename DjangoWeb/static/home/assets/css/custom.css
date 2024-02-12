@@ -47,6 +47,13 @@ img {
 }
 .notfound {
     font-family: 'Courier New', Courier, monospace;
+    color:#912631;
+}
+.tin_tong_hop {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 25px;
+    margin-left: 20px;
+
 }
 
 

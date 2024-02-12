@@ -26,6 +26,7 @@ APP_VALUE_DEFAULT_IMG_DEFINE = '/media/home/images/feed/logo.png'
 APP_VALUE_LOGO_IMG_DEFINE = '/media/home/images/feed/logo.png'
 APP_VALUE_SMALL_LOGO_IMG_DEFINE = '/media/home/images/feed/logo_small.png'
 APP_VALUE_FOOTER_IMG_DEFINE = '/media/home/images/feed/world-news.png'
+APP_VALUE_404_IMG_DEFINE = '/media/home/images/feed/404.png'
 TABLE_CATEGORY_SHOW = "Category"
 TABLE_ARTICAL_SHOW = "Articals"
 TABLE_FEED_SHOW = "Feeds"

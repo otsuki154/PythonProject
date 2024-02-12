@@ -15,7 +15,8 @@ def items_catagory_sidebar_menu(request):
         "items_catagory_sidebar_menu":items_catagory_sidebar_menu,
             "logo_image":APP_VALUE_LOGO_IMG_DEFINE,
             "small_logo_image":APP_VALUE_SMALL_LOGO_IMG_DEFINE,
-            "img_src":APP_VALUE_DEFAULT_IMG_DEFINE
+            "img_src":APP_VALUE_DEFAULT_IMG_DEFINE,
+            "404_img_src":APP_VALUE_404_IMG_DEFINE,
             }
 
 

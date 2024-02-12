@@ -40,7 +40,7 @@
                         <div class="main-menu d-none d-md-block mx-auto">
                             <nav>
                                 <ul id="navigation">
-                                    <li><a href="{% url 'index' %}">Trang Chủ</a></li>
+                                    <li><a class="tin_tong_hop" href="{% url 'index' %}">Trang Chủ</a></li>
                                     {% for item in items_catagory_sidebar_menu %}
                                         <li><a {% if item_catagory.name == item.name  or item_artical.catagory.name == item.name %} class="text-primary" {% endif %} href="{{ item.get_absolute_url }}">{{item.name}}</a></li>
                                     {% endfor %}
