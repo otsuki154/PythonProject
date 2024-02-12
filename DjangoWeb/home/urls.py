@@ -2,7 +2,14 @@ from django.urls import path, include, re_path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.sitemaps.views import sitemap
+from .sitemap import ArticleSitemap, StaticSitemap,CatagorySitemap
 
+sitemaps = {
+    'category':CatagorySitemap,
+    'article':ArticleSitemap,
+    'static': StaticSitemap,
+}
 
 urlpatterns = [
 
@@ -15,7 +22,7 @@ urlpatterns = [
     path('contact.html', views.contact, name = "contact"),
     path('about.html', views.about, name = "about"),
     path('policy.html', views.policy, name = "policy"),
-
+    path('sitemap.xml', sitemap, {'sitemaps':sitemaps},name='django.contrib.sitemaps.views.sitemap'),
 
     re_path(r'^tin-tong-hop-(?P<feed_slug>[\w-]+)\.html$', views.feed, name='feed'),
     re_path(r'^(?P<artical_slug>[\w-]+)-a(?P<artical_id>\d+)\.html$', views.artical, name='artical'),

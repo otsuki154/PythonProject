@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'home.apps.HomeConfig',
      'tinymce',
      'django_cleanup.apps.CleanupConfig', # should be placed after your apps
@@ -158,3 +160,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#The SITE_ID variable is essential when using multiple websites on a single database.
+SITE_ID = 1
