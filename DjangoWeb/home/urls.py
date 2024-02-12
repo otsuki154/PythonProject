@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from .sitemap import ArticleSitemap, StaticSitemap,CatagorySitemap
+from django.views.generic import TemplateView
 
 sitemaps = {
     'category':CatagorySitemap,
@@ -22,6 +23,8 @@ urlpatterns = [
     path('contact.html', views.contact, name = "contact"),
     path('about.html', views.about, name = "about"),
     path('policy.html', views.policy, name = "policy"),
+    path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots"),
+
     path('sitemap.xml', sitemap, {'sitemaps':sitemaps},name='django.contrib.sitemaps.views.sitemap'),
 
     re_path(r'^tin-tong-hop-(?P<feed_slug>[\w-]+)\.html$', views.feed, name='feed'),
@@ -29,6 +32,7 @@ urlpatterns = [
 
     path('<slug:catagory_slug>.html', views.category, name = "catagory"),
     path('tinymce/', include('tinymce.urls')),
+    
 
 ]
 
