@@ -22,9 +22,8 @@
                     <div class="row">
 
                         {% if items_artical|length > 0 %}
-                            {% if item.layout == 'list' %}
+                            {% if item_catagory.layout == 'list' %}
                                 {% include "pages/category/list.html" %}
-                                
                             {% else %}
                                 {% include "pages/category/grid.html" %}
                             {% endif %}
