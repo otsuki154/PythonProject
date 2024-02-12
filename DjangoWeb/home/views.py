@@ -128,3 +128,11 @@ def about(request):
         "title_page":"Giới thiệu"
 
     })
+
+def policy(request):
+
+
+    return render(request, TABLE_PATH_FILE + 'policy.html',{
+        "title_page":"Điều khoản sử dụng"
+
+    })

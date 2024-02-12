@@ -14,6 +14,7 @@ urlpatterns = [
     path('search.html', views.search, name = "search"),
     path('contact.html', views.contact, name = "contact"),
     path('about.html', views.about, name = "about"),
+    path('policy.html', views.policy, name = "policy"),
 
 
     re_path(r'^tin-tong-hop-(?P<feed_slug>[\w-]+)\.html$', views.feed, name='feed'),

@@ -15,11 +15,12 @@
                             </div>
                             <div class="footer-tittle">
                                 <div class="footer-pera">
-
+                                    
                                     <p class="info1 mb-3">Báo tin tức Xuân Thu</p>
                                     <p class="info1 mb-3">Cập nhật tin tức mới hàng giờ</p>
-                                    <p class="info2 mb-3">Phone: 070 4386 2643</p>
-                                    <p class="info2 mb-3">Lưu ý: Nội dung trang web nhằm phục vụ mục đích cá nhân, không vì mục đích thương mại</p>
+                                    <li class="info2 mb-3"><a href="{% url 'about' %}">Giới Thiệu</a></li>
+                                    {% comment %} <li class="info2 mb-3"><a href="{% url 'contact' %}">Liên Hệ</a></li> {% endcomment %}
+                                    <li class="info2 mb-3"><a href="{% url 'policy' %}">Điều khoản sử dụng</a></li>
                                 </div>
                             </div>
                         </div>
@@ -50,6 +51,7 @@
                     <div class="single-footer-caption mb-50">
                         <div class="banner">
                             <img src={{footer_img_src}} alt="" style="width: 87%;">
+                           
                         </div>
                     </div>
                 </div>
