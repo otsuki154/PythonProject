@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 from psycopg2 import sql
 from unidecode import unidecode
 from datetime import datetime
+from PIL import Image
+from io import BytesIO
 
 def init():
     #Link các mục bài báo
@@ -32,16 +34,17 @@ def init():
                    ]
     combined_dict = dict(zip(categoryIds, urls))
     # Thư mục để lưu trữ hình ảnh
-    image_folder = "/Users/ThanhNV177/Project/PycharmProjects/DjangoWeb/static/home/images/artical"
+    image_folder = "/Users/ThanhNV177/Project/XuanThuNews/static/news/images/article"
+
     # Kết nối đến PostgreSQL
     conn = psycopg2.connect(
-        dbname="djangodb",
+        dbname="xuanthudb",
         user="postgres",
         password="postgres",
         host="localhost",
         port="5433"
     )
-    numArticles = 10
+    numArticles = 20
     return combined_dict, image_folder, conn, numArticles
 def convert_to_formatted_time(date_str):
     # Tách chuỗi theo dấu phẩy
@@ -103,17 +106,31 @@ def get_article_content(url):
         print(f"Failed to fetch content. Status code: {response.status_code}")
     return None
 
-def download_image(image_folder,image_url, article_title):
+def download_image(image_folder, image_url, article_title, target_size_kb=80):
     # Tạo thư mục nếu chưa tồn tại
     os.makedirs(image_folder, exist_ok=True)
     if image_url:
         # Tạo đường dẫn đầy đủ cho hình ảnh
-        full_image_path = os.path.join(image_folder, f"{article_title}.jpg")
+        full_image_path = os.path.join(image_folder, f"{article_title}.webp")
 
-        # Tải hình ảnh và lưu vào thư mục images
-        image_data = requests.get(image_url).content
-        with open(full_image_path, 'wb') as image_file:
-            image_file.write(image_data)
+        # Tải hình ảnh
+        response = requests.get(image_url)
+        if response.status_code == 200:
+            image = Image.open(BytesIO(response.content))
+
+            # Lấy tỉ lệ giảm kích thước để đạt được dung lượng mong muốn
+            target_size_bytes = target_size_kb * 1024
+            current_size_bytes = len(response.content)
+            if current_size_bytes > target_size_bytes:
+                # Resize ảnh
+                new_width = 800
+                new_height = int((image.height / image.width) * new_width)
+                resized_image = image.resize((new_width, new_height))
+            else:
+                resized_image = image
+
+            # Chuyển đổi và lưu lại ảnh đã được resize dưới định dạng WebP
+            resized_image.save(full_image_path, 'WEBP', quality=85)
 
 def slugify(name):
     # Chuyển đổi chuỗi thành chữ thường và loại bỏ dấu
@@ -128,7 +145,7 @@ def slugify(name):
     slug = slug.replace(' ', '-')
     return slug
 
-def getArtcalDataInfors(url,catagoryId,image_folder,numArticles):
+def getArtcalDataInfors(url,categoryId,image_folder,numArticles):
     # Lấy danh sách các bài báo
     article_links = []
     soup = BeautifulSoup(requests.get(url).text, "html.parser")
@@ -148,17 +165,17 @@ def getArtcalDataInfors(url,catagoryId,image_folder,numArticles):
                 print(f'title:{title} imageUrl:{image_url} link:{article_url}')
                 continue
             slug = slugify(title)
-            if i == 1 and catagoryId in (3,5,7,8,9):
+            if i == 1 and categoryId in (3,5,7,8,9):
                 special = True
             else:
                 special = False
             # public_date = get_current_time()
-            image = "home/images/artical/" + slug + ".jpg"
+            image = "news/images/article/" + slug + ".webp"
             status = "published"
             ordering = i
             i += 1
             # Dữ liệu mẫu, bạn có thể thay đổi tùy theo nhu cầu
-            articleInfor = (title, slug, special, public_date, content, image, catagoryId, status, ordering)
+            articleInfor = (title, slug, special, public_date, content, image, categoryId, status, ordering)
             insertData.append(articleInfor)
 
             # Tải hình ảnh và lưu vào thư mục images
@@ -177,7 +194,7 @@ def UpdateArticleDataInfos(conn,insertData):
     try:
         # Sử dụng câu truy vấn INSERT ... ON CONFLICT để kiểm tra trùng lặp trên cột 'name' và 'slug'
         insert_query = sql.SQL("""
-            INSERT INTO public.home_artical ("name", slug, special, publish_date, content, image, catagory_id, status, ordering)
+            INSERT INTO public.news_article ("name", slug, special, publish_date, content, image, category_id, status, ordering)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (name, slug) DO NOTHING
         """)
@@ -185,16 +202,16 @@ def UpdateArticleDataInfos(conn,insertData):
         # Insert Article Datas
         cur.executemany(insert_query, insertData)
 
-        # Update special với bài báo mới nhất của mỗi catagory
+        # Update special với bài báo mới nhất của mỗi category
         update_query = sql.SQL("""
-                    UPDATE home_artical
-                    SET special = CASE WHEN home_artical.publish_date = max_dates.max_publish_date THEN True ELSE False END
+                    UPDATE news_article
+                    SET special = CASE WHEN news_article.publish_date = max_dates.max_publish_date THEN True ELSE False END
                     FROM (
-                        SELECT catagory_id, MAX(publish_date) AS max_publish_date
-                        FROM home_artical
-                        GROUP BY catagory_id
+                        SELECT category_id, MAX(publish_date) AS max_publish_date
+                        FROM news_article
+                        GROUP BY category_id
                     ) AS max_dates
-                    WHERE home_artical.catagory_id = max_dates.catagory_id
+                    WHERE news_article.category_id = max_dates.category_id
                 """)
 
         # Thực hiện truy vấn UPDATE
